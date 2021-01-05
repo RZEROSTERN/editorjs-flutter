@@ -1,3 +1,3 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.1] - Initial Release
 
-* TODO: Describe initial release.
+* The Viewer has been completed with the basic structures of an EditorJS JSON file.
