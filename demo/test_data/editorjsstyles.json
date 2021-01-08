@@ -1,0 +1,16 @@
+{
+  "cssTags": [
+    {
+      "tag" : "code",
+      "backgroundColor" : "#33ff0000",
+      "color" : "#ffff0000",
+      "padding" : 5.0
+    },
+    {
+      "tag" : "mark",
+      "backgroundColor" : "#ffffff00",
+      "padding" : 5.0
+    }
+  ],
+  "defaultFont" : "Roboto"
+}

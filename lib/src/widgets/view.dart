@@ -2,12 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
+import 'package:editorjs_flutter/src/model/EditorJSViewStyles.dart';
+import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 
 class EditorJSView extends StatefulWidget {
   final String editorJSData;
+  final String styles;
   
-  const EditorJSView({Key key, this.editorJSData}) : super(key: key);
+  const EditorJSView({Key key, this.editorJSData, this.styles}) : super(key: key);
 
   @override
   EditorJSViewState createState() => EditorJSViewState();
@@ -16,15 +20,19 @@ class EditorJSView extends StatefulWidget {
 class EditorJSViewState extends State<EditorJSView> {
   String data;
   EditorJSData dataObject;
+  EditorJSViewStyles styles;
   List<Widget> items = new List();
+  Map<String, Style> customStyleMap;
 
   @override
   void initState() {
     super.initState();
     
     setState(() {
-      data = widget.editorJSData;
-      dataObject = EditorJSData.fromJson(jsonDecode(data));
+      dataObject = EditorJSData.fromJson(jsonDecode(widget.editorJSData));
+      styles = EditorJSViewStyles.fromJson(jsonDecode(widget.styles));
+
+      customStyleMap = generateStylemap(styles.cssTags);
 
       dataObject.blocks.forEach((element) {
         double levelFontSize = 16;
@@ -40,16 +48,22 @@ class EditorJSViewState extends State<EditorJSView> {
 
         switch(element.type) {
           case "header":
-            items.add(Text(element.data.text, 
-              style: TextStyle(
-                fontSize: levelFontSize,
-                fontWeight: (element.data.level <= 3) ? FontWeight.bold : FontWeight.normal
-              ), 
-              textAlign: TextAlign.center, )
+            items.add(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start, 
+                children: [
+                  Text(element.data.text, 
+                    style: TextStyle(
+                      fontSize: levelFontSize,
+                      fontWeight: (element.data.level <= 3) ? FontWeight.bold : FontWeight.normal
+                    ),
+                  ) 
+                ]
+              )
             );
           break;
           case "paragraph":
-            items.add(Html(data: element.data.text));
+            items.add(Html(data: element.data.text, style: customStyleMap,));
           break;
           case "list":
             String bullet = "\u2022 ";
@@ -67,7 +81,12 @@ class EditorJSViewState extends State<EditorJSView> {
             });
           break;
           case "delimiter":
-            items.add(Text('***', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center,));
+            items.add(Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('***', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
+              ])
+            );
           break;
           case "image":
             items.add(Image.network(element.data.file.url));
@@ -78,10 +97,28 @@ class EditorJSViewState extends State<EditorJSView> {
     });
   }
 
+  Map<String, Style> generateStylemap(List<EditorJSCSSTag> styles) {
+    Map<String, Style> map = new Map();
+
+    styles.forEach((element) {
+      map.putIfAbsent(element.tag.toString(), () => Style(
+        backgroundColor:  (element.backgroundColor != null) ? getColor(element.backgroundColor) : null,
+        color: (element.color != null) ? getColor(element.color) : null,
+        padding : (element.padding != null) ? EdgeInsets.all(element.padding) : null
+      ));
+    });
+
+    return map;
+  }
+
+  Color getColor(String hexColor) {
+    final hexCode = hexColor.replaceAll('#', '');
+    return Color(int.parse('$hexCode', radix: 16));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: items,
     );
   }
