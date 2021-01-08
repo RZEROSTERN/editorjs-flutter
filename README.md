@@ -6,13 +6,11 @@ A viewer compatible with the EditorJS schema.
 This library is still under development, so critical bugs are expected and should not be used right now for a production environment.
 
 ## Installation
-**WARNING:** You must install the Flutter HTML library for using correctly this library.
 
 Add these lines in your pubspec.yaml file on the dependencies level:
 
 ```dart
   editorjs_flutter: any
-  flutter_html: ^0.8.2
 ```
 
 After that just execute ```flutter pub get``` in Terminal as always.
