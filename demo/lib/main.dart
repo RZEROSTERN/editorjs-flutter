@@ -1,5 +1,6 @@
 import 'package:editorjs_flutter/editorjs_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:demo/createnote.dart';
 
 void main() {
   runApp(MyApp());
@@ -69,15 +70,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  void _showEditor() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (BuildContext context) => CreateNoteLayout()
+        )
+    );
   }
 
   @override
@@ -99,11 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
             (editorJSView != null) ? editorJSView : Text("Please wait...")
           ],)
       ),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showEditor,
+        tooltip: 'Create content',
         child: Icon(Icons.add),
-      ),*/ // This trailing comma makes auto-formatting nicer for build methods.
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
