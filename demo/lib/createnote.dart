@@ -1,3 +1,4 @@
+import 'package:editorjs_flutter/editorjs_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/main.dart';
 
@@ -7,6 +8,16 @@ class CreateNoteLayout extends StatefulWidget {
 }
 
 class CreateNoteLayoutState extends State<CreateNoteLayout> {
+  EditorJSEditor editorJSEditor;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      editorJSEditor = EditorJSEditor();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +37,7 @@ class CreateNoteLayoutState extends State<CreateNoteLayout> {
       ),
       body: SingleChildScrollView(
           child: Column(children: [
-            Text("Test")
+            (editorJSEditor != null) ? editorJSEditor : Text("Please wait")
           ],)
       )// This trailing comma makes auto-formatting nicer for build methods.
     );
