@@ -9,12 +9,23 @@ class EditorJSEditor extends StatefulWidget {
 }
 
 class EditorJSEditorState extends State<EditorJSEditor> {
+  List<Widget> items = new List();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SingleChildScrollView(
+          child: Row(
+            children: items,
+          ),
+        ),
         EditorJSToolbar()
       ],
     );
   }
+}
+
+class TextComponent {
+
 }
