@@ -1,3 +1,7 @@
+## [0.0.3] - Added Toolbar
+
+The toolbar scaffolding is ready. You may check it out in the Demo.
+
 ## [0.0.2] - Added Styles for Paragraphs
 
 * Now you can add a paragraph with some styles.
