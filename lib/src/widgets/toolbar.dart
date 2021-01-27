@@ -1,5 +1,3 @@
-import 'package:editorjs_flutter/editorjs_flutter.dart';
-import 'package:editorjs_flutter/src/widgets/components/textcomponent.dart';
 import 'package:flutter/material.dart';
 
 class EditorJSToolbar extends StatefulWidget {
