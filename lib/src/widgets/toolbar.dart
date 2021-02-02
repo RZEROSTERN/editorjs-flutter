@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 
 class EditorJSToolbar extends StatefulWidget {
   EditorJSToolbar({
@@ -11,6 +12,11 @@ class EditorJSToolbar extends StatefulWidget {
 
 class EditorJSToolbarState extends State<EditorJSToolbar> {
   int headerSize = 1;
+
+  @override
+  void initState() {
+    super.initState();
+  }
   
   void changeHeader() {
     setState(() {
@@ -20,6 +26,30 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
         headerSize++;
       }
     });
+  }
+
+  void openBottom(context) {
+    showBottomSheet(
+      context: context, 
+      builder: (BuildContext context) {
+        return Container(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: Icon(Icons.camera), title: Text("Cámara"),
+                onTap: () {},
+              ),
+              ListTile(leading: Icon(Icons.image), title: Text("Galería")),
+            ],
+          ),
+        );
+      }
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -60,9 +90,12 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
             padding: EdgeInsets.all(10.0),
             child: Icon(Icons.horizontal_rule, color: Colors.black38,),
           ),
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Icon(Icons.image, color: Colors.black38,),
+          GestureDetector(
+            onTap: () => openBottom(context),
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Icon(Icons.image, color: Colors.black38,),
+            ),
           )
         ],
       ),
