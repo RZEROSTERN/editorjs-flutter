@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditorJSToolbar extends StatefulWidget {
   EditorJSToolbar({
@@ -12,6 +14,7 @@ class EditorJSToolbar extends StatefulWidget {
 
 class EditorJSToolbarState extends State<EditorJSToolbar> {
   int headerSize = 1;
+  final picker = ImagePicker();
 
   @override
   void initState() {
@@ -28,8 +31,32 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
     });
   }
 
+  Future getImageFromCamera() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        print(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImageFromGallery() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        print(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
   void openBottom(context) {
-    showBottomSheet(
+    showModalBottomSheet(
       context: context, 
       builder: (BuildContext context) {
         return Container(
@@ -37,9 +64,12 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
             children: [
               ListTile(
                 leading: Icon(Icons.camera), title: Text("Cámara"),
-                onTap: () {},
+                onTap: () => getImageFromCamera(),
               ),
-              ListTile(leading: Icon(Icons.image), title: Text("Galería")),
+              ListTile(
+                leading: Icon(Icons.image), title: Text("Galería"),
+                onTap: () => getImageFromGallery(),
+              ),
             ],
           ),
         );
