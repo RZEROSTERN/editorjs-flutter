@@ -28,12 +28,12 @@ class EditorJSEditorState extends State<EditorJSEditor> with ChangeNotifier {
     return Column(
       children: [
         SingleChildScrollView(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(5.0),
           child: Row(
             children: items,
           ),
         ),
-        EditorJSToolbar()
+        EditorJSToolbar(parent: this)
       ],
     );
   }

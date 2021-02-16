@@ -2,19 +2,27 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:editorjs_flutter/src/widgets/editor.dart';
+import 'package:editorjs_flutter/src/widgets/components/textcomponent.dart';
 
 class EditorJSToolbar extends StatefulWidget {
+  final EditorJSEditorState parent;
+
   EditorJSToolbar({
     Key key,
+    this.parent
   }) : super(key: key);
 
   @override
-  EditorJSToolbarState createState() => EditorJSToolbarState();
+  EditorJSToolbarState createState() => EditorJSToolbarState(this.parent);
 }
 
 class EditorJSToolbarState extends State<EditorJSToolbar> {
   int headerSize = 1;
   final picker = ImagePicker();
+  EditorJSEditorState parent;
+
+  EditorJSToolbarState(this.parent);
 
   @override
   void initState() {
@@ -36,7 +44,7 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
 
     setState(() {
       if (pickedFile != null) {
-        print(pickedFile.path);
+        sendImageToEditor(pickedFile);
       } else {
         print('No image selected.');
       }
@@ -48,10 +56,28 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
 
     setState(() {
       if (pickedFile != null) {
-        print(pickedFile.path);
+        sendImageToEditor(pickedFile);
       } else {
         print('No image selected.');
       }
+    });
+  }
+
+  void sendImageToEditor(pickedFile) {
+    this.parent.setState(() {
+      this.parent.items.add(
+        Image.file(
+          File(pickedFile.path),
+          fit: BoxFit.fill,
+          width: MediaQuery.of(context).size.width - 20,
+        )
+      );
+    });
+  }
+
+  void addText(context) {
+    this.parent.setState(() {
+      this.parent.items.add(Container(child: TextComponent.addText(),));
     });
   }
 
@@ -63,11 +89,11 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
           child: Wrap(
             children: [
               ListTile(
-                leading: Icon(Icons.camera), title: Text("Cámara"),
+                leading: Icon(Icons.camera), title: Text("Camera"),
                 onTap: () => getImageFromCamera(),
               ),
               ListTile(
-                leading: Icon(Icons.image), title: Text("Galería"),
+                leading: Icon(Icons.image), title: Text("Gallery"),
                 onTap: () => getImageFromGallery(),
               ),
             ],
@@ -89,9 +115,7 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
         crossAxisAlignment: CrossAxisAlignment.start, 
         children: [
           GestureDetector(
-            onTap: () {
-              print("Adds new paragraph");
-            },
+            onTap: () => addText(context),
             child: Padding(
               padding: EdgeInsets.all(10.0),
               child: Text("T", style: TextStyle(color: Colors.black38, fontSize: 20.0, fontWeight: FontWeight.bold),)
