@@ -19,7 +19,7 @@ class EditorJSEditorState extends State<EditorJSEditor> with ChangeNotifier {
     super.initState();
 
     setState(() {
-      items.add(TextComponent.addText());
+      items.add(Row(children: [TextComponent.addText()]));
     });
   } 
 
@@ -29,7 +29,7 @@ class EditorJSEditorState extends State<EditorJSEditor> with ChangeNotifier {
       children: [
         SingleChildScrollView(
           padding: EdgeInsets.all(5.0),
-          child: Row(
+          child: Column(
             children: items,
           ),
         ),

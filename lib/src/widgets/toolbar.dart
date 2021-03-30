@@ -77,7 +77,8 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
 
   void addText(context) {
     this.parent.setState(() {
-      this.parent.items.add(Container(child: TextComponent.addText(),));
+      print("Adding new text block");
+      this.parent.items.add(Row(children: [TextComponent.addText()],));
     });
   }
 
