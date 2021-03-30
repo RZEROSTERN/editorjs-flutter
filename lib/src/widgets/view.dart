@@ -73,10 +73,26 @@ class EditorJSViewState extends State<EditorJSView> {
             element.data.items.forEach((element) {
               if(style == 'ordered') {
                 bullet = counter.toString();
-                items.add(Text(bullet + element));
+                items.add(
+                  Row(
+                    children: [
+                      Container(
+                        child: Html(data: bullet + element, style: customStyleMap,)
+                      )
+                    ]
+                  ),
+                );
                 counter++;
               } else {
-                items.add(Text(bullet + element));
+                items.add(
+                  Row(
+                    children: [
+                      Container(
+                        child: Html(data: bullet + element, style: customStyleMap,)
+                      )
+                    ]
+                  ),
+                );
               }
             });
           break;

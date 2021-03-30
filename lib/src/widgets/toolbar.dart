@@ -114,6 +114,49 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
     });
   }
 
+  void addHyperlink(context) {
+    var title = TextEditingController();
+    var url = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: Text("Add Link"),
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 20.0, right: 20.00, bottom: 20.0),
+              child: TextField(
+                decoration: new InputDecoration(hintText: "Title"),
+                controller: title,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20.0, right: 20.00, bottom: 20.0),
+              child: TextField(
+                decoration: new InputDecoration(hintText: "URL"),
+                controller: url,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20.0, right: 20.00),
+              child: RaisedButton(
+                color: Colors.blue,
+                child: Text("Add Link", style: TextStyle(color: Colors.white),),
+                onPressed: (){
+                  setState(() {
+                    print(title);
+                    print(url);
+                  });
+                },
+              )
+            ),
+          ],
+        );
+      }
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -147,10 +190,15 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
             padding: EdgeInsets.all(10.0),
             child: Icon(Icons.list, color: Colors.black38,),
           ),
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Icon(Icons.link, color: Colors.black38,),
+
+          GestureDetector(
+            onTap: () => addHyperlink(context),
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Icon(Icons.link, color: Colors.black38,),
+            ),
           ),
+          
           GestureDetector(
             onTap: () => addLine(),
             child: Padding(
