@@ -49,8 +49,8 @@ class EditorJSViewState extends State<EditorJSView> {
         switch(element.type) {
           case "header":
             items.add(
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start, 
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(element.data.text, 
                     style: TextStyle(
@@ -81,10 +81,11 @@ class EditorJSViewState extends State<EditorJSView> {
             });
           break;
           case "delimiter":
-            items.add(Column(
+            items.add(Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('***', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
+                // Text('***', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
+                Expanded(child: Divider(color: Colors.grey))
               ])
             );
           break;

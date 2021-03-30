@@ -65,19 +65,19 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
 
   void sendImageToEditor(pickedFile) {
     this.parent.setState(() {
-      this.parent.items.add(
+      this.parent.items.add(Row(children: [
         Image.file(
           File(pickedFile.path),
           fit: BoxFit.fill,
           width: MediaQuery.of(context).size.width - 20,
         )
+      ],)
       );
     });
   }
 
-  void addText(context) {
+  void addText() {
     this.parent.setState(() {
-      print("Adding new text block");
       this.parent.items.add(Row(children: [TextComponent.addText()],));
     });
   }
@@ -104,6 +104,16 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
     );
   }
 
+  void addLine() {
+    this.parent.setState(() {
+      this.parent.items.add(
+        Row(children: [
+          Expanded(child: Divider(color: Colors.grey))
+        ],)
+      );
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -116,7 +126,7 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
         crossAxisAlignment: CrossAxisAlignment.start, 
         children: [
           GestureDetector(
-            onTap: () => addText(context),
+            onTap: () => addText(),
             child: Padding(
               padding: EdgeInsets.all(10.0),
               child: Text("T", style: TextStyle(color: Colors.black38, fontSize: 20.0, fontWeight: FontWeight.bold),)
@@ -141,9 +151,12 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
             padding: EdgeInsets.all(10.0),
             child: Icon(Icons.link, color: Colors.black38,),
           ),
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Icon(Icons.horizontal_rule, color: Colors.black38,),
+          GestureDetector(
+            onTap: () => addLine(),
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Icon(Icons.horizontal_rule, color: Colors.black38,),
+            ),
           ),
           GestureDetector(
             onTap: () => openBottom(context),
