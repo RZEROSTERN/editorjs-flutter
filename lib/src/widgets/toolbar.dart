@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:editorjs_flutter/src/widgets/editor.dart';
 import 'package:editorjs_flutter/src/widgets/components/textcomponent.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EditorJSToolbar extends StatefulWidget {
   final EditorJSEditorState parent;
@@ -144,10 +146,27 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
                 color: Colors.blue,
                 child: Text("Add Link", style: TextStyle(color: Colors.white),),
                 onPressed: (){
-                  setState(() {
-                    print(title);
-                    print(url);
+                  this.parent.setState(() {
+                    this.parent.items.add(
+                      Row(
+                        children: [
+                          RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text: title.text,
+                                style: TextStyle(color: Colors.blue),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    launch(url.text);
+                                  }
+                              ),
+                            ])
+                          )
+                        ],
+                      )
+                    );
                   });
+                  Navigator.pop(context);
                 },
               )
             ),
