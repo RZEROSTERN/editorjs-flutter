@@ -176,6 +176,10 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
     );
   }
 
+  void addListBlock() {
+    
+  }
+
   @override
   void dispose() {
     super.dispose();
