@@ -147,7 +147,8 @@ class EditorJSViewState extends State<EditorJSView> {
                 backgroundColor: (element.backgroundColor != null)
                     ? getColor(element.backgroundColor!)
                     : null,
-                color: (element.color != null) ? getColor(element.color!) : null,
+                color:
+                    (element.color != null) ? getColor(element.color!) : null,
                 padding: (element.padding != null)
                     ? EdgeInsets.all(element.padding!)
                     : null));
