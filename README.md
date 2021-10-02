@@ -106,6 +106,10 @@ Finally, assign it to your widget as you wish. The Editor has the same features 
     );
   }
 ```
+# Collaborators
+I want to say thank you to all collaborators on this development. Kudos for you :D
+
+@Dhi13man - Flutter 2 compatibility and Null Safety.
 
 # Want to Collaborate?
 Please send me a message to Twitter (@RZEROSTERN) or an email to marco.ramirez@rzerocorp.com for getting in touch.
