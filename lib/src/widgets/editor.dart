@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'toolbar.dart';
 
 class EditorJSEditor extends StatefulWidget {
-  const EditorJSEditor({Key key}) : super(key: key);
+  const EditorJSEditor({Key? key}) : super(key: key);
 
   @override
   EditorJSEditorState createState() => EditorJSEditorState();
 }
 
 class EditorJSEditorState extends State<EditorJSEditor> with ChangeNotifier {
-  List<Widget> items = new List();
+  final List<Widget> items = <Widget>[];
 
   @override
   void initState() {
@@ -21,7 +21,7 @@ class EditorJSEditorState extends State<EditorJSEditor> with ChangeNotifier {
     setState(() {
       items.add(Row(children: [TextComponent.addText()]));
     });
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
