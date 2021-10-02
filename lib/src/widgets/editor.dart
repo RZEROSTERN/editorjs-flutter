@@ -12,7 +12,7 @@ class EditorJSEditor extends StatefulWidget {
 }
 
 class EditorJSEditorState extends State<EditorJSEditor> with ChangeNotifier {
-  List<Widget> items = new List();
+  final List<Widget> items = <Widget>[];
 
   @override
   void initState() {
