@@ -8,8 +8,7 @@ class EditorJSBlock {
 
   factory EditorJSBlock.fromJson(Map<String, dynamic> parsedJson) {
     return EditorJSBlock(
-      data: EditorJSBlockData.fromJson(parsedJson['data']), 
-      type: parsedJson['type']
-    );
+        data: EditorJSBlockData.fromJson(parsedJson['data']),
+        type: parsedJson['type']);
   }
 }

@@ -52,7 +52,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   EditorJSView editorJSView;
 
   @override
@@ -62,8 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void fetchTestData() async {
-    String data = await DefaultAssetBundle.of(context).loadString("test_data/editorjsdatatest.json");
-    String styles = await DefaultAssetBundle.of(context).loadString("test_data/editorjsstyles.json");
+    String data = await DefaultAssetBundle.of(context)
+        .loadString("test_data/editorjsdatatest.json");
+    String styles = await DefaultAssetBundle.of(context)
+        .loadString("test_data/editorjsstyles.json");
 
     setState(() {
       editorJSView = EditorJSView(editorJSData: data, styles: styles);
@@ -71,11 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showEditor() {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-            builder: (BuildContext context) => CreateNoteLayout()
-        )
-    );
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) => CreateNoteLayout()));
   }
 
   @override
@@ -93,10 +91,11 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: SingleChildScrollView(
-          child: Column(children: [
-            (editorJSView != null) ? editorJSView : Text("Please wait...")
-          ],)
-      ),
+          child: Column(
+        children: [
+          (editorJSView != null) ? editorJSView : Text("Please wait...")
+        ],
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: _showEditor,
         tooltip: 'Create content',

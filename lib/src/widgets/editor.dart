@@ -21,7 +21,7 @@ class EditorJSEditorState extends State<EditorJSEditor> with ChangeNotifier {
     setState(() {
       items.add(Row(children: [TextComponent.addText()]));
     });
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {

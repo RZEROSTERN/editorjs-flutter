@@ -1,4 +1,3 @@
-
 class EditorJSCSSTag {
   final String tag;
   final String backgroundColor;
@@ -9,10 +8,9 @@ class EditorJSCSSTag {
 
   factory EditorJSCSSTag.fromJson(Map<String, dynamic> parsedJson) {
     return EditorJSCSSTag(
-      tag: parsedJson['tag'], 
-      backgroundColor: parsedJson['backgroundColor'],
-      color: parsedJson['color'],
-      padding: parsedJson['padding']
-    );
+        tag: parsedJson['tag'],
+        backgroundColor: parsedJson['backgroundColor'],
+        color: parsedJson['color'],
+        padding: parsedJson['padding']);
   }
 }
