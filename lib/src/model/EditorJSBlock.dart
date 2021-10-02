@@ -1,8 +1,8 @@
 import 'package:editorjs_flutter/src/model/EditorJSBlockData.dart';
 
 class EditorJSBlock {
-  final String type;
-  final EditorJSBlockData data;
+  final String? type;
+  final EditorJSBlockData? data;
 
   EditorJSBlock({this.type, this.data});
 

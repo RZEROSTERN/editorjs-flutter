@@ -1,9 +1,9 @@
 import 'package:editorjs_flutter/src/model/EditorJSBlock.dart';
 
 class EditorJSData {
-  final int time;
-  final String version;
-  final List<EditorJSBlock> blocks;
+  final int? time;
+  final String? version;
+  final List<EditorJSBlock>? blocks;
 
   EditorJSData({this.time, this.version, this.blocks});
 

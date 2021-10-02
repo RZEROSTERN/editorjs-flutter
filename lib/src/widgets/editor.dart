@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'toolbar.dart';
 
 class EditorJSEditor extends StatefulWidget {
-  const EditorJSEditor({Key key}) : super(key: key);
+  const EditorJSEditor({Key? key}) : super(key: key);
 
   @override
   EditorJSEditorState createState() => EditorJSEditorState();

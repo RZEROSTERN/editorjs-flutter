@@ -1,5 +1,5 @@
 class EditorJSBlockFile {
-  final String url;
+  final String? url;
 
   EditorJSBlockFile({this.url});
 

@@ -1,8 +1,8 @@
 import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
 
 class EditorJSViewStyles {
-  final List<EditorJSCSSTag> cssTags;
-  final String defaultFont;
+  final List<EditorJSCSSTag>? cssTags;
+  final String? defaultFont;
 
   EditorJSViewStyles({this.cssTags, this.defaultFont});
 

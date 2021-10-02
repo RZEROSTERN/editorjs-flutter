@@ -8,10 +8,10 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 
 class EditorJSView extends StatefulWidget {
-  final String editorJSData;
-  final String styles;
+  final String? editorJSData;
+  final String? styles;
 
-  const EditorJSView({Key key, this.editorJSData, this.styles})
+  const EditorJSView({Key? key, this.editorJSData, this.styles})
       : super(key: key);
 
   @override
@@ -19,11 +19,11 @@ class EditorJSView extends StatefulWidget {
 }
 
 class EditorJSViewState extends State<EditorJSView> {
-  String data;
-  EditorJSData dataObject;
-  EditorJSViewStyles styles;
+  String? data;
+  late EditorJSData dataObject;
+  late EditorJSViewStyles styles;
   final List<Widget> items = <Widget>[];
-  Map<String, Style> customStyleMap;
+  late Map<String, Style> customStyleMap;
 
   @override
   void initState() {
@@ -31,16 +31,16 @@ class EditorJSViewState extends State<EditorJSView> {
 
     setState(
       () {
-        dataObject = EditorJSData.fromJson(jsonDecode(widget.editorJSData));
-        styles = EditorJSViewStyles.fromJson(jsonDecode(widget.styles));
+        dataObject = EditorJSData.fromJson(jsonDecode(widget.editorJSData!));
+        styles = EditorJSViewStyles.fromJson(jsonDecode(widget.styles!));
 
-        customStyleMap = generateStylemap(styles.cssTags);
+        customStyleMap = generateStylemap(styles.cssTags!);
 
-        dataObject.blocks.forEach(
+        dataObject.blocks!.forEach(
           (element) {
             double levelFontSize = 16;
 
-            switch (element.data.level) {
+            switch (element.data!.level) {
               case 1:
                 levelFontSize = 32;
                 break;
@@ -67,10 +67,10 @@ class EditorJSViewState extends State<EditorJSView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        element.data.text,
+                        element.data!.text!,
                         style: TextStyle(
                             fontSize: levelFontSize,
-                            fontWeight: (element.data.level <= 3)
+                            fontWeight: (element.data!.level! <= 3)
                                 ? FontWeight.bold
                                 : FontWeight.normal),
                       )
@@ -78,16 +78,16 @@ class EditorJSViewState extends State<EditorJSView> {
                 break;
               case "paragraph":
                 items.add(Html(
-                  data: element.data.text,
+                  data: element.data!.text,
                   style: customStyleMap,
                 ));
                 break;
               case "list":
                 String bullet = "\u2022 ";
-                String style = element.data.style;
+                String? style = element.data!.style;
                 int counter = 1;
 
-                element.data.items.forEach(
+                element.data!.items!.forEach(
                   (element) {
                     if (style == 'ordered') {
                       bullet = counter.toString();
@@ -126,7 +126,7 @@ class EditorJSViewState extends State<EditorJSView> {
                     ]));
                 break;
               case "image":
-                items.add(Image.network(element.data.file.url));
+                items.add(Image.network(element.data!.file!.url!));
                 break;
             }
             items.add(const SizedBox(height: 10));
@@ -145,11 +145,11 @@ class EditorJSViewState extends State<EditorJSView> {
             element.tag.toString(),
             () => Style(
                 backgroundColor: (element.backgroundColor != null)
-                    ? getColor(element.backgroundColor)
+                    ? getColor(element.backgroundColor!)
                     : null,
-                color: (element.color != null) ? getColor(element.color) : null,
+                color: (element.color != null) ? getColor(element.color!) : null,
                 padding: (element.padding != null)
-                    ? EdgeInsets.all(element.padding)
+                    ? EdgeInsets.all(element.padding!)
                     : null));
       },
     );
