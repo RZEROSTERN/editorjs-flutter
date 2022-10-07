@@ -5,7 +5,7 @@ A viewer and editor compatible with the EditorJS schema.
 # DISCLAIMER
 This library is still under development, so critical bugs are expected and should not be used right now for a production environment.
 
-Also, right now this plugin is only compatible with Flutter 1, Flutter 2 compatibility will come soon.
+Also, right now this plugin is compatible with Flutter 1 and 2. We are working in Flutter v3 compatibility and will come soon.
 
 # Installation
 
