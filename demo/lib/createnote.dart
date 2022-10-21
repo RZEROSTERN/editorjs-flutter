@@ -1,6 +1,6 @@
 import 'package:editorjs_flutter/editorjs_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:demo/main.dart';
+import 'main.dart';
 
 class CreateNoteLayout extends StatefulWidget {
   @override

@@ -1,6 +1,6 @@
 import 'package:editorjs_flutter/editorjs_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:demo/createnote.dart';
+import 'createnote.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //

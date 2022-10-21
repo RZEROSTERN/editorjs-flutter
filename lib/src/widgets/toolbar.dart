@@ -17,20 +17,51 @@ class EditorJSToolbar extends StatefulWidget {
 }
 
 class EditorJSToolbarState extends State<EditorJSToolbar> {
-  int headerSize = 1;
+  double fontSize = 0;
+  FontWeight fontWeight = FontWeight.w400;
   final picker = ImagePicker();
-  EditorJSEditorState? parent;
+  // EditorJSEditorState? parent;
 
   EditorJSToolbarState(parent);
 
-  void changeHeader() {
+  void changeHeader(size) {
     setState(
       () {
-        if (headerSize > 5) {
-          headerSize = 1;
-        } else {
-          headerSize++;
+        switch (size){
+          case 1:{
+            fontSize = 32;
+            fontWeight = FontWeight.bold;
+          }
+          break;
+          case 2:{
+            fontSize = 24;
+            fontWeight = FontWeight.bold;
+          }
+          break;
+          case 3:{
+            fontSize = 20;
+            fontWeight = FontWeight.w600;
+          }
+          break;
+          case 4:{
+            fontSize = 16;
+            fontWeight = FontWeight.w500;
+          }
+          break;
+          case 5:{
+            fontSize = 14;
+            fontWeight = FontWeight.w400;
+          }
+          break;
+          case 6:{
+            fontSize = 12;
+            fontWeight = FontWeight.w400;
+          }
+          break;
+          default: {}
+          break;
         }
+        addText();
       },
     );
   }
@@ -64,9 +95,9 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
   }
 
   void sendImageToEditor(pickedFile) {
-    parent!.setState(
+    widget.parent!.setState(
       () {
-        parent!.items.add(
+        widget.parent!.items.add(
           Row(
             children: [
               Image.file(
@@ -82,10 +113,10 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
   }
 
   void addText() {
-    parent!.setState(
+    widget.parent!.setState(
       () {
-        parent!.items.add(
-          Row(children: <Widget>[TextComponent.addText()]),
+        widget.parent!.items.add(
+          Row(children: <Widget>[TextComponent.addText(size: fontSize, weight: fontWeight)]),
         );
       },
     );
@@ -115,9 +146,15 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
     );
   }
 
+  void removeLast() {
+    widget.parent!.setState(() {
+      widget.parent!.items.removeLast();
+    });
+  }
+
   void addLine() {
-    parent!.setState(() {
-      parent!.items.add(Row(
+    widget.parent!.setState(() {
+      widget.parent!.items.add(Row(
         children: [Expanded(child: Divider(color: Colors.grey))],
       ));
     });
@@ -159,9 +196,9 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  parent!.setState(
+                  widget.parent!.setState(
                     () {
-                      parent!.items.add(
+                      widget.parent!.items.add(
                         Row(
                           children: [
                             RichText(
@@ -201,77 +238,156 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         children: [
-          GestureDetector(
-            onTap: () => addText(),
-            child: Padding(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () => addText(),
+                child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      "T",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    )),
+              ),
+              GestureDetector(
+                onTap: () => changeHeader(1),
+                child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      "H1",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    )),
+              ),
+              GestureDetector(
+                onTap: () => changeHeader(2),
+                child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      "H2",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    )),
+              ),
+              GestureDetector(
+                onTap: () => changeHeader(3),
+                child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      "H3",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    )),
+              ),
+              GestureDetector(
+                onTap: () => changeHeader(4),
+                child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      "H4",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    )),
+              ),
+              GestureDetector(
+                onTap: () => changeHeader(5),
+                child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      "H5",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    )),
+              ),
+              GestureDetector(
+                onTap: () => changeHeader(6),
+                child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      "H6",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                    )),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
                 padding: EdgeInsets.all(10.0),
-                child: Text(
-                  "T",
-                  style: TextStyle(
-                      color: Colors.black38,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold),
-                )),
-          ),
-          GestureDetector(
-            onTap: () => changeHeader(),
-            child: Padding(
+                child: Icon(
+                  Icons.format_quote,
+                  color: Colors.black38,
+                ),
+              ),
+              Padding(
                 padding: EdgeInsets.all(10.0),
-                child: Text(
-                  "H" + headerSize.toString(),
-                  style: TextStyle(
-                      color: Colors.black38,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold),
-                )),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Icon(
-              Icons.format_quote,
-              color: Colors.black38,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Icon(
-              Icons.list,
-              color: Colors.black38,
-            ),
-          ),
-          GestureDetector(
-            onTap: () => addHyperlink(context),
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Icon(
-                Icons.link,
-                color: Colors.black38,
+                child: Icon(
+                  Icons.list,
+                  color: Colors.black38,
+                ),
               ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => addLine(),
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Icon(
-                Icons.horizontal_rule,
-                color: Colors.black38,
+              GestureDetector(
+                onTap: () => addHyperlink(context),
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.link,
+                    color: Colors.black38,
+                  ),
+                ),
               ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => openBottom(context),
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Icon(
-                Icons.image,
-                color: Colors.black38,
+              GestureDetector(
+                onTap: () => addLine(),
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.horizontal_rule,
+                    color: Colors.black38,
+                  ),
+                ),
               ),
-            ),
-          )
+              GestureDetector(
+                onTap: () => openBottom(context),
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.image,
+                    color: Colors.black38,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () => removeLast(),
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.black38,
+                  ),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );
