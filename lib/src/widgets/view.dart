@@ -93,11 +93,13 @@ class EditorJSViewState extends State<EditorJSView> {
                       bullet = counter.toString();
                       items.add(
                         Row(children: [
-                          Container(
-                              child: Html(
-                            data: bullet + element,
-                            style: customStyleMap,
-                          ))
+                          Expanded(
+                            child: Container(
+                                child: Html(
+                              data: bullet + element,
+                              style: customStyleMap,
+                            )),
+                          )
                         ]),
                       );
                       counter++;
@@ -105,10 +107,12 @@ class EditorJSViewState extends State<EditorJSView> {
                       items.add(
                         Row(
                           children: <Widget>[
-                            Container(
-                              child: Html(
-                                  data: bullet + element,
-                                  style: customStyleMap),
+                            Expanded(
+                                child: Container(
+                                  child: Html(
+                                      data: bullet + element,
+                                      style: customStyleMap),
+                                )
                             )
                           ],
                         ),
