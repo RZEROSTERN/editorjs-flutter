@@ -39,22 +39,22 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
           }
           break;
           case 3:{
-            fontSize = 20;
+            fontSize = 16;
             fontWeight = FontWeight.w600;
           }
           break;
           case 4:{
-            fontSize = 16;
+            fontSize = 12;
             fontWeight = FontWeight.w500;
           }
           break;
           case 5:{
-            fontSize = 14;
+            fontSize = 10;
             fontWeight = FontWeight.w400;
           }
           break;
           case 6:{
-            fontSize = 12;
+            fontSize = 8;
             fontWeight = FontWeight.w400;
           }
           break;
@@ -66,22 +66,8 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
     );
   }
 
-  Future<void> getImageFromCamera() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
-
-    setState(
-      () {
-        if (pickedFile != null) {
-          sendImageToEditor(pickedFile);
-        } else {
-          print('No image selected.');
-        }
-      },
-    );
-  }
-
-  Future<void> getImageFromGallery() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> getImage(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: source);
 
     setState(
       () {
@@ -132,12 +118,12 @@ class EditorJSToolbarState extends State<EditorJSToolbar> {
               ListTile(
                 leading: Icon(Icons.camera),
                 title: const Text("Camera"),
-                onTap: () => getImageFromCamera(),
+                onTap: () => getImage(ImageSource.camera),
               ),
               ListTile(
                 leading: Icon(Icons.image),
                 title: const Text("Gallery"),
-                onTap: () => getImageFromGallery(),
+                onTap: () => getImage(ImageSource.gallery),
               ),
             ],
           ),
