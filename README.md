@@ -111,7 +111,7 @@ I want to say thank you to all collaborators on this development. Kudos for you 
 
 @Dhi13man - Flutter 2 compatibility and Null Safety.
 
-@mnomanmemon - H1 to H6 behavior for the framework.
+@mnomanmemon - H1 to H6 behavior for the framework and Flutter v3 compatibility.
 
 # Want to Collaborate?
 Please send me a message to Twitter (@RZEROSTERN) or an email to marco.ramirez@rzerocorp.com for getting in touch.
