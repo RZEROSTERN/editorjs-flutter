@@ -180,7 +180,7 @@ packages:
       name: flutter_html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.3"
+    version: "2.2.1"
   flutter_layout_grid:
     dependency: transitive
     description:
@@ -194,7 +194,7 @@ packages:
       name: flutter_math_fork
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.1"
+    version: "0.4.2+2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -253,7 +253,14 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.4+2"
+    version: "0.8.6"
+  image_picker_android:
+    dependency: transitive
+    description:
+      name: image_picker_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.5+3"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -261,13 +268,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.3"
+  image_picker_ios:
+    dependency: transitive
+    description:
+      name: image_picker_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.6+1"
   image_picker_platform_interface:
     dependency: transitive
     description:
       name: image_picker_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+    version: "2.6.2"
   js:
     dependency: transitive
     description:
@@ -379,7 +393,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.1.3"
   provider:
     dependency: transitive
     description:
@@ -489,7 +503,21 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.12"
+    version: "6.1.6"
+  url_launcher_android:
+    dependency: transitive
+    description:
+      name: url_launcher_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.19"
+  url_launcher_ios:
+    dependency: transitive
+    description:
+      name: url_launcher_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.17"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -510,7 +538,7 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.1.1"
   url_launcher_web:
     dependency: transitive
     description:
@@ -646,4 +674,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.17.0-0 <3.0.0"
-  flutter: ">=2.5.0"
+  flutter: ">=2.10.0"

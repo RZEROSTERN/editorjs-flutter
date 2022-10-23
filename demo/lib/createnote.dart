@@ -22,20 +22,7 @@ class CreateNoteLayoutState extends State<CreateNoteLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text("Create Note"),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        MyHomePage(title: 'Flutter Demo Home Page')),
-              );
-            },
-          ),
+          title: Text("Create Note")
         ),
         body: SingleChildScrollView(
             child: Column(
