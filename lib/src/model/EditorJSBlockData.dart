@@ -1,6 +1,5 @@
 import 'package:editorjs_flutter/src/model/EditorJSBlockFile.dart';
 
-
 class EditorJSBlockData {
   final String? text;
   final int? level;

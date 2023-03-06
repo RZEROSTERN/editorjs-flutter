@@ -1,23 +1,24 @@
 import 'dart:convert';
 
-import 'package:auto_route/auto_route.dart';
+import 'package:editorjs_flutter/src/model/EditorJSBlockData.dart';
 import 'package:flutter/material.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
 import 'package:editorjs_flutter/src/model/EditorJSViewStyles.dart';
 import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import 'package:overlaystarter/Components/Buttons/blue_button.dart';
-import 'package:overlaystarter/routes/router.gr.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import 'dart:developer';
 
+import 'package:editorjs_flutter/OverlayUIComponents/blue_button.dart';
+
+typedef EditorJSButtonCallback = void Function(EditorJSBlockData? buttonAction, BuildContext context);
+
 class EditorJSView extends StatefulWidget {
+  final EditorJSButtonCallback? onButtonAction;
   final String? editorJSData;
   final String? styles;
 
-  const EditorJSView({Key? key, this.editorJSData, this.styles})
+  const EditorJSView({Key? key, this.editorJSData, this.styles, this.onButtonAction})
       : super(key: key);
 
   @override
@@ -138,37 +139,12 @@ class EditorJSViewState extends State<EditorJSView> {
                 items.add(Image.network(element.data!.file!.url!));
                 break;
               case "button":
-
-                ///TODO put the switch case inside the onpressed instead
                 log("BUTTON CASE");
                 items.add(
                   BlueButton(
                     text: element.data!.buttonText!,
-                    onPressed: () async {
-                      switch (element.data!.buttonType!) {
-                        case "externalUrl":
-                          log("externalUrl CASE");
-                          if (await canLaunchUrl(
-                              Uri.parse(element.data!.buttonAction!))) {
-                            await launchUrl(
-                                Uri.parse(element.data!.buttonAction!));
-                          } else {
-                            log("Could not launch URL");
-                          }
-                          break;
-                        case "internalDeeplink":
-                          log("internalDeeplink CASE");
-                          switch (element.data!.buttonAction!) {
-                            case "OnboardingRoute":
-                              context.router.replaceAll([OnboardingRoute()]);
-                              log("internal deeplink to onboarding page");
-                              break;
-                            case "ScanRoute":
-                              context.router.replaceAll([ScanRoute()]);
-                              log("internal deeplink to scan page");
-                              break;
-                          }
-                      }
+                    onPressed: () {
+                      widget.onButtonAction!(element.data, context);
                     },
                   ),
                 );
