@@ -23,29 +23,33 @@ class BlueButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.pressed)) {
-            return AppColors.overlayBlueButtonPressed;
-          } else {
-            return AppColors.overlayBlue;
-          }
-        }),
-        padding: const MaterialStatePropertyAll(
-          EdgeInsets.symmetric(
-            vertical: 10.0,
-            horizontal: 24.0,
+    return FractionallySizedBox(
+      widthFactor: 0.9,
+      alignment: Alignment.center,
+      child: TextButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.pressed)) {
+              return AppColors.overlayBlueButtonPressed;
+            } else {
+              return AppColors.overlayBlue;
+            }
+          }),
+          padding: const MaterialStatePropertyAll(
+            EdgeInsets.symmetric(
+              vertical: 10.0,
+              horizontal: 24.0,
+            ),
           ),
+          shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          )),
         ),
-        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        )),
-      ),
-      onPressed: () => onPressed(),
-      child: Text(
-        text,
-        style: AppStyles.poppinsButton,
+        onPressed: () => onPressed(),
+        child: Text(
+          text,
+          style: AppStyles.poppinsButton,
+        ),
       ),
     );
   }
