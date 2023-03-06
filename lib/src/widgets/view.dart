@@ -1,17 +1,24 @@
 import 'dart:convert';
 
+import 'package:editorjs_flutter/src/model/EditorJSBlockData.dart';
 import 'package:flutter/material.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
 import 'package:editorjs_flutter/src/model/EditorJSViewStyles.dart';
 import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
+
+import 'dart:developer';
+
+import 'package:editorjs_flutter/OverlayUIComponents/blue_button.dart';
+
+typedef EditorJSButtonCallback = void Function(EditorJSBlockData? buttonAction, BuildContext context);
 
 class EditorJSView extends StatefulWidget {
+  final EditorJSButtonCallback? onButtonAction;
   final String? editorJSData;
   final String? styles;
 
-  const EditorJSView({Key? key, this.editorJSData, this.styles})
+  const EditorJSView({Key? key, this.editorJSData, this.styles, this.onButtonAction})
       : super(key: key);
 
   @override
@@ -109,11 +116,10 @@ class EditorJSViewState extends State<EditorJSView> {
                           children: <Widget>[
                             Expanded(
                                 child: Container(
-                                  child: Html(
-                                      data: bullet + element,
-                                      style: customStyleMap),
-                                )
-                            )
+                              child: Html(
+                                  data: bullet + element,
+                                  style: customStyleMap),
+                            ))
                           ],
                         ),
                       );
@@ -131,6 +137,17 @@ class EditorJSViewState extends State<EditorJSView> {
                 break;
               case "image":
                 items.add(Image.network(element.data!.file!.url!));
+                break;
+              case "button":
+                log("BUTTON CASE");
+                items.add(
+                  BlueButton(
+                    text: element.data!.buttonText!,
+                    onPressed: () {
+                      widget.onButtonAction!(element.data, context);
+                    },
+                  ),
+                );
                 break;
             }
             items.add(const SizedBox(height: 10));
