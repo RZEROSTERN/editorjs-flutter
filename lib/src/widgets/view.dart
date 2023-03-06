@@ -1,11 +1,17 @@
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
 import 'package:editorjs_flutter/src/model/EditorJSViewStyles.dart';
 import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
+
+import 'package:overlaystarter/Components/Buttons/blue_button.dart';
+import 'package:overlaystarter/routes/router.gr.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'dart:developer';
 
 class EditorJSView extends StatefulWidget {
   final String? editorJSData;
@@ -109,11 +115,10 @@ class EditorJSViewState extends State<EditorJSView> {
                           children: <Widget>[
                             Expanded(
                                 child: Container(
-                                  child: Html(
-                                      data: bullet + element,
-                                      style: customStyleMap),
-                                )
-                            )
+                              child: Html(
+                                  data: bullet + element,
+                                  style: customStyleMap),
+                            ))
                           ],
                         ),
                       );
@@ -131,6 +136,42 @@ class EditorJSViewState extends State<EditorJSView> {
                 break;
               case "image":
                 items.add(Image.network(element.data!.file!.url!));
+                break;
+              case "button":
+
+                ///TODO put the switch case inside the onpressed instead
+                log("BUTTON CASE");
+                items.add(
+                  BlueButton(
+                    text: element.data!.buttonText!,
+                    onPressed: () async {
+                      switch (element.data!.buttonType!) {
+                        case "externalUrl":
+                          log("externalUrl CASE");
+                          if (await canLaunchUrl(
+                              Uri.parse(element.data!.buttonAction!))) {
+                            await launchUrl(
+                                Uri.parse(element.data!.buttonAction!));
+                          } else {
+                            log("Could not launch URL");
+                          }
+                          break;
+                        case "internalDeeplink":
+                          log("internalDeeplink CASE");
+                          switch (element.data!.buttonAction!) {
+                            case "OnboardingRoute":
+                              context.router.replaceAll([OnboardingRoute()]);
+                              log("internal deeplink to onboarding page");
+                              break;
+                            case "ScanRoute":
+                              context.router.replaceAll([ScanRoute()]);
+                              log("internal deeplink to scan page");
+                              break;
+                          }
+                      }
+                    },
+                  ),
+                );
                 break;
             }
             items.add(const SizedBox(height: 10));

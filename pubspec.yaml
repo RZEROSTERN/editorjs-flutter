@@ -10,9 +10,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  overlaystarter:
+    path: ../Overlay-Flutter-API/overlaystarter
   flutter_html: ^2.2.1
   image_picker: ^0.8.6
   url_launcher: ^6.1.6
+  auto_route:
 
 dev_dependencies:
   flutter_test:
