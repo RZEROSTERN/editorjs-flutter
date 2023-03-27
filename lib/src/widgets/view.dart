@@ -73,13 +73,15 @@ class EditorJSViewState extends State<EditorJSView> {
                 items.add(Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        element.data!.text!,
-                        style: TextStyle(
-                            fontSize: levelFontSize,
-                            fontWeight: (element.data!.level! <= 3)
-                                ? FontWeight.bold
-                                : FontWeight.normal),
+                      Expanded(
+                        child: Text(
+                          element.data!.text!,
+                          style: TextStyle(
+                              fontSize: levelFontSize,
+                              fontWeight: (element.data!.level! <= 3)
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
                       )
                     ]));
                 break;
