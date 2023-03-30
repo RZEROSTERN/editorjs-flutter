@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:editorjs_flutter/OverlayUIComponents/AudioPlayer/audio_player.dart';
 import 'package:editorjs_flutter/src/model/EditorJSBlockData.dart';
 import 'package:flutter/material.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
@@ -10,15 +11,20 @@ import 'package:flutter_html/flutter_html.dart';
 import 'dart:developer';
 
 import 'package:editorjs_flutter/OverlayUIComponents/blue_button.dart';
+import 'package:just_audio/just_audio.dart';
 
-typedef EditorJSButtonCallback = void Function(EditorJSBlockData? buttonAction, BuildContext context);
+import '../../OverlayUIComponents/VideoPlayer/video_player.dart';
+
+typedef EditorJSButtonCallback = void Function(
+    EditorJSBlockData? buttonAction, BuildContext context);
 
 class EditorJSView extends StatefulWidget {
   final EditorJSButtonCallback? onButtonAction;
   final String? editorJSData;
   final String? styles;
 
-  const EditorJSView({Key? key, this.editorJSData, this.styles, this.onButtonAction})
+  const EditorJSView(
+      {Key? key, this.editorJSData, this.styles, this.onButtonAction})
       : super(key: key);
 
   @override
@@ -31,6 +37,23 @@ class EditorJSViewState extends State<EditorJSView> {
   late EditorJSViewStyles styles;
   final List<Widget> items = <Widget>[];
   late Map<String, Style> customStyleMap;
+
+  AudioPlayer? _currentlyPlayingAudioPlayer;
+  bool _isSomethingPlaying = false;
+
+  /// If an audio player is already playing, and you play a second one, the first one gets paused
+  void pauseOtherAudioPlayers(AudioPlayer audioPlayer) {
+    //If something is already playing, pause that so we can play this instead, and update the currently playing reference
+    if (_isSomethingPlaying) {
+      _currentlyPlayingAudioPlayer!.pause();
+      _currentlyPlayingAudioPlayer = audioPlayer;
+    }
+    //If nothing is currently playing, do nothing, but update the currently playing reference
+    else {
+      _currentlyPlayingAudioPlayer = audioPlayer;
+      _isSomethingPlaying = true;
+    }
+  }
 
   @override
   void initState() {
@@ -141,13 +164,30 @@ class EditorJSViewState extends State<EditorJSView> {
                 items.add(Image.network(element.data!.file!.url!));
                 break;
               case "button":
-                log("BUTTON CASE");
                 items.add(
                   BlueButton(
                     text: element.data!.buttonText!,
                     onPressed: () {
                       widget.onButtonAction!(element.data, context);
                     },
+                  ),
+                );
+                break;
+              case "audio":
+                items.add(
+                  OverlayAudioPlayer(
+                    audioFirebaseStoragePath: element.data!.audioPath!,
+                    audioTitle: element.data!.audioTitle!,
+                    pauseOtherAudioPlayers: pauseOtherAudioPlayers,
+                  ),
+                );
+                break;
+              case "video":
+                items.add(
+                  OverlayVideoPlayer(
+                    videoFirebaseStoragePath: element.data!.videoPath!,
+                    videoTitle: element.data!.videoTitle!,
+                    // pauseOtherAudioPlayers: pauseOtherAudioPlayers,,
                   ),
                 );
                 break;

@@ -1,18 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
-  static const Color overlayBlue = Color(0xff1599F3);
-  static const Color overlayBlueButtonPressed = Color(0xff076EB5);
-}
-
-class AppStyles {
-  static const TextStyle poppinsButton = TextStyle(
-    color: Colors.white,
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.w500,
-    fontSize: 14.0,
-  );
-}
+import 'Colors/Colors.dart';
+import 'Fonts/Styles.dart';
 
 class BlueButton extends StatelessWidget {
   final String text;

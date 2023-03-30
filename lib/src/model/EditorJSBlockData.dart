@@ -13,8 +13,13 @@ class EditorJSBlockData {
   final String? buttonType;
   final String? buttonText;
   final String? buttonAction;
+  final String? audioPath;
+  final String? audioTitle;
+  final String? videoPath;
+  final String? videoTitle;
 
-  EditorJSBlockData({this.text,
+  EditorJSBlockData({
+    this.text,
     this.level,
     this.style,
     this.items,
@@ -25,7 +30,12 @@ class EditorJSBlockData {
     this.withBackground,
     this.buttonType,
     this.buttonText,
-    this.buttonAction});
+    this.buttonAction,
+    this.audioPath,
+    this.audioTitle,
+    this.videoPath,
+    this.videoTitle,
+  });
 
   factory EditorJSBlockData.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['items'] as List?;
@@ -51,6 +61,10 @@ class EditorJSBlockData {
       buttonType: parsedJson['buttonType'],
       buttonText: parsedJson['buttonText'],
       buttonAction: parsedJson['buttonAction'],
+      audioPath: parsedJson['audioPath'],
+      audioTitle: parsedJson['audioTitle'],
+      videoPath: parsedJson['videoPath'],
+      videoTitle: parsedJson['videoTitle']
     );
   }
 }

@@ -8,10 +8,12 @@ environment:
   flutter: ">=2.10.0"
 
 dependencies:
+  firebase_storage: ^11.0.16
   flutter:
     sdk: flutter
   flutter_html: ^2.2.1
   image_picker: ^0.8.6
+  just_audio: ^0.9.32
   url_launcher: ^6.1.10
 
 dev_dependencies:
