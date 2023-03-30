@@ -28,10 +28,13 @@ class _OverlayAudioPlayerState extends State<OverlayAudioPlayer> {
   AudioPlayer audioPlayer = AudioPlayer();
   late StreamSubscription<Duration?> durationSubscription;
   late StreamSubscription<Duration?> positionSubscription;
+  late StreamSubscription<PlayerState> playerStateSubscription;
+
   // late StreamSubscription<Duration?> bufferedSubscription;
 
   Duration? _duration;
   Duration? _position;
+
   // Duration? _bufferedPosition;
 
   bool isInitialised = false;
@@ -46,6 +49,7 @@ class _OverlayAudioPlayerState extends State<OverlayAudioPlayer> {
   void dispose() {
     durationSubscription.cancel();
     positionSubscription.cancel();
+    playerStateSubscription.cancel();
     audioPlayer.dispose();
     super.dispose();
   }
@@ -67,6 +71,14 @@ class _OverlayAudioPlayerState extends State<OverlayAudioPlayer> {
       setState(() {
         _position = position;
       });
+    });
+
+    playerStateSubscription =
+        audioPlayer.playerStateStream.listen((state) async {
+      if (state.processingState == ProcessingState.completed) {
+        await audioPlayer.seek(Duration.zero);
+        await audioPlayer.pause();
+      }
     });
 
     // bufferedSubscription =
@@ -107,16 +119,16 @@ class _OverlayAudioPlayerState extends State<OverlayAudioPlayer> {
                     children: [
                       IconButton(
                           splashRadius: 1,
-                          icon: Icon((audioPlayer.processingState ==
+                          icon: (audioPlayer.processingState ==
                                   ProcessingState.buffering)
-                              ? Icons.play_arrow_outlined
+                              ? Icon(Icons.play_arrow, color: Colors.grey)
                               : (audioPlayer.playing
-                                  ? Icons.pause
-                                  : Icons.play_arrow)),
+                                  ? Icon(Icons.pause)
+                                  : Icon(Icons.play_arrow)),
                           onPressed: () async {
+                            // Button does nothing if buffering
                             if (audioPlayer.processingState ==
                                 ProcessingState.buffering) {
-                              null;
                             } else {
                               if (audioPlayer.playing) {
                                 await audioPlayer.pause();
@@ -144,13 +156,13 @@ class _OverlayAudioPlayerState extends State<OverlayAudioPlayer> {
                             value: _position?.inSeconds.toDouble() ?? 0.0,
                             min: 0.0,
                             max: _duration?.inSeconds.toDouble() ?? 0.0,
-                            onChanged: (double seekPosition) {
-                              audioPlayer.seek(
+                            onChanged: (double seekPosition) async {
+                              await audioPlayer.seek(
                                   Duration(seconds: seekPosition.toInt()));
                             },
-                            onChangeEnd: (_) {
+                            onChangeEnd: (_) async {
                               widget.pauseOtherAudioPlayers(audioPlayer);
-                              audioPlayer.play();
+                              await audioPlayer.play();
                             },
                           ),
                         ),

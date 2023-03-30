@@ -8,7 +8,7 @@ environment:
   flutter: ">=2.10.0"
 
 dependencies:
-  firebase_storage: ^11.0.16
+  firebase_storage: any
   flutter:
     sdk: flutter
   flutter_html: ^2.2.1
