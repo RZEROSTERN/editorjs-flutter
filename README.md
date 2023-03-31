@@ -1,6 +1,6 @@
 # EditorJS viewer for Flutter
 
-A viewer and editor compatible with the EditorJS schema.
+A viewer and editor compatible with the EditorJS schema. jordan was here.
 
 # DISCLAIMER
 This library is still under development, so critical bugs are expected and should not be used right now for a production environment.
