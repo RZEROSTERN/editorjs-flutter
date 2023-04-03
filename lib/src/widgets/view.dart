@@ -10,7 +10,7 @@ import 'package:flutter_html/flutter_html.dart';
 
 import 'dart:developer';
 
-import 'package:editorjs_flutter/OverlayUIComponents/blue_button.dart';
+import 'package:editorjs_flutter/OverlayUIComponents/orange_button.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../../OverlayUIComponents/VideoPlayer/video_player.dart';
@@ -165,11 +165,11 @@ class EditorJSViewState extends State<EditorJSView> {
                 break;
               case "button":
                 items.add(
-                  BlueButton(
+                  EditorJSOrangeButton(
                     text: element.data!.buttonText!,
                     onPressed: () {
                       widget.onButtonAction!(element.data, context);
-                    },
+                    }, buttonType: element.data!.buttonType!,
                   ),
                 );
                 break;
