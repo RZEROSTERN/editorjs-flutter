@@ -19,12 +19,17 @@ typedef EditorJSButtonCallback = void Function(
     EditorJSBlockData? buttonAction, BuildContext context);
 
 class EditorJSView extends StatefulWidget {
+  final bool isPreview;
   final EditorJSButtonCallback? onButtonAction;
   final String? editorJSData;
   final String? styles;
 
   const EditorJSView(
-      {Key? key, this.editorJSData, this.styles, this.onButtonAction})
+      {Key? key,
+      required this.isPreview,
+      this.editorJSData,
+      this.styles,
+      this.onButtonAction})
       : super(key: key);
 
   @override
@@ -169,7 +174,8 @@ class EditorJSViewState extends State<EditorJSView> {
                     text: element.data!.buttonText!,
                     onPressed: () {
                       widget.onButtonAction!(element.data, context);
-                    }, buttonType: element.data!.buttonType!,
+                    },
+                    buttonType: element.data!.buttonType!,
                   ),
                 );
                 break;
@@ -192,7 +198,9 @@ class EditorJSViewState extends State<EditorJSView> {
                 );
                 break;
             }
-            items.add(const SizedBox(height: 10));
+            if (!widget.isPreview) {
+              items.add(const SizedBox(height: 10));
+            }
           },
         );
       },
