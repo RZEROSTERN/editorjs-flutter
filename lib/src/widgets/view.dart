@@ -19,6 +19,7 @@ typedef EditorJSButtonCallback = void Function(
     EditorJSBlockData? buttonAction, BuildContext context);
 
 class EditorJSView extends StatefulWidget {
+  // isPreview is used to conditionally add padding at the bottom of the EditorJSView column (we don't want it in preview mode)
   final bool isPreview;
   final EditorJSButtonCallback? onButtonAction;
   final String? editorJSData;
@@ -161,7 +162,6 @@ class EditorJSViewState extends State<EditorJSView> {
                 items.add(Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Text('***', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
                       Expanded(child: Divider(color: Colors.grey))
                     ]));
                 break;
@@ -193,7 +193,6 @@ class EditorJSViewState extends State<EditorJSView> {
                   OverlayVideoPlayer(
                     videoFirebaseStoragePath: element.data!.videoPath!,
                     videoTitle: element.data!.videoTitle!,
-                    // pauseOtherAudioPlayers: pauseOtherAudioPlayers,,
                   ),
                 );
                 break;
