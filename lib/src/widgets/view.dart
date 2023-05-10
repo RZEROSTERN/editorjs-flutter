@@ -135,7 +135,7 @@ class EditorJSViewState extends State<EditorJSView> {
                           Expanded(
                             child: Container(
                                 child: Html(
-                              data: bullet + element,
+                              data: "$bullet. $element",
                               style: customStyleMap,
                             )),
                           )
