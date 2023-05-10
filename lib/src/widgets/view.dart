@@ -72,6 +72,7 @@ class EditorJSViewState extends State<EditorJSView> {
 
         customStyleMap = generateStylemap(styles.cssTags!);
 
+        log("Here is the dataObject blocks: ${dataObject.blocks?.length}");
         dataObject.blocks!.forEach(
           (element) {
             double levelFontSize = 16;
@@ -161,40 +162,58 @@ class EditorJSViewState extends State<EditorJSView> {
               case "delimiter":
                 items.add(Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(child: Divider(color: Colors.grey))
-                    ]));
+                    children: [Expanded(child: Divider(color: Colors.grey))]));
                 break;
               case "image":
                 items.add(Image.network(element.data!.file!.url!));
                 break;
               case "button":
-                items.add(
-                  EditorJSOrangeButton(
-                    text: element.data!.buttonText!,
-                    onPressed: () {
-                      widget.onButtonAction!(element.data, context);
-                    },
-                    buttonType: element.data!.buttonType!,
-                  ),
-                );
+                if (element.data != null) {
+                  if (element.data!.buttonText != null) {
+                    if (element.data!.buttonAction != null) {
+                      if (element.data!.buttonType != null) {
+                        items.add(
+                          EditorJSOrangeButton(
+                            text: element.data!.buttonText!,
+                            onPressed: () {
+                              widget.onButtonAction!(element.data, context);
+                            },
+                            buttonType: element.data!.buttonType!,
+                          ),
+                        );
+                      }
+                    }
+                  }
+                }
                 break;
               case "audio":
-                items.add(
-                  OverlayAudioPlayer(
-                    audioFirebaseStoragePath: element.data!.audioPath!,
-                    audioTitle: element.data!.audioTitle!,
-                    pauseOtherAudioPlayers: pauseOtherAudioPlayers,
-                  ),
-                );
+                if (element.data != null) {
+                  if (element.data!.audioPath != null) {
+                    if (element.data!.audioTitle != null) {
+                      items.add(
+                        OverlayAudioPlayer(
+                          audioFirebaseStoragePath: element.data!.audioPath!,
+                          audioTitle: element.data!.audioTitle!,
+                          pauseOtherAudioPlayers: pauseOtherAudioPlayers,
+                        ),
+                      );
+                    }
+                  }
+                }
                 break;
               case "video":
-                items.add(
-                  OverlayVideoPlayer(
-                    videoFirebaseStoragePath: element.data!.videoPath!,
-                    videoTitle: element.data!.videoTitle!,
-                  ),
-                );
+                if (element.data != null) {
+                  if (element.data!.videoPath != null) {
+                    if (element.data!.videoTitle != null) {
+                      items.add(
+                        OverlayVideoPlayer(
+                          videoFirebaseStoragePath: element.data!.videoPath!,
+                          videoTitle: element.data!.videoTitle!,
+                        ),
+                      );
+                    }
+                  }
+                }
                 break;
             }
             if (!widget.isPreview) {
