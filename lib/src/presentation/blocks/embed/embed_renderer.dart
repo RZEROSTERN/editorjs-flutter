@@ -11,8 +11,18 @@ class EmbedRenderer extends BlockRenderer<EmbedBlock> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: block.source.isNotEmpty
-          ? () => launchUrl(Uri.parse(block.source),
-              mode: LaunchMode.externalApplication)
+          ? () async {
+              final uri = Uri.tryParse(block.source);
+              if (uri == null) return;
+              final scheme = uri.scheme.toLowerCase();
+              if (scheme != 'http' && scheme != 'https') return;
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(
+                  uri,
+                  mode: LaunchMode.externalApplication,
+                );
+              }
+            }
           : null,
       borderRadius: BorderRadius.circular(8),
       child: Container(
