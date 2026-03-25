@@ -192,4 +192,72 @@ void main() {
       expect((second['data'] as Map<String, dynamic>)['text'], '<p>Body</p>');
     });
   });
+
+  // ---------------------------------------------------------------------------
+  // fromJson
+  // ---------------------------------------------------------------------------
+  group('fromJson', () {
+    test('pre-populates blocks from valid JSON', () {
+      const json =
+          '{"blocks":[{"type":"header","data":{"text":"Hello","level":1}}]}';
+      final ctrl = EditorController.fromJson(json);
+      expect(ctrl.blockCount, 1);
+      expect(ctrl.blocks.first, isA<HeaderBlock>());
+      expect((ctrl.blocks.first as HeaderBlock).text, 'Hello');
+    });
+
+    test('empty controller on invalid JSON', () {
+      final ctrl = EditorController.fromJson('not valid json');
+      expect(ctrl.blockCount, 0);
+    });
+
+    test('empty controller on empty string', () {
+      final ctrl = EditorController.fromJson('');
+      expect(ctrl.blockCount, 0);
+    });
+
+    test('unknown block types are silently dropped', () {
+      const json =
+          '{"blocks":[{"type":"unknown_xyz","data":{}},{"type":"header","data":{"text":"Known","level":1}}]}';
+      final ctrl = EditorController.fromJson(json);
+      expect(ctrl.blockCount, 1);
+      expect(ctrl.blocks.first, isA<HeaderBlock>());
+    });
+
+    test('multiple blocks parsed correctly', () {
+      const json = '''
+      {
+        "blocks": [
+          {"type": "header", "data": {"text": "Title", "level": 2}},
+          {"type": "paragraph", "data": {"text": "<b>Bold</b>"}},
+          {"type": "delimiter", "data": {}}
+        ]
+      }
+      ''';
+      final ctrl = EditorController.fromJson(json);
+      expect(ctrl.blockCount, 3);
+      expect(ctrl.blocks[0], isA<HeaderBlock>());
+      expect(ctrl.blocks[1], isA<ParagraphBlock>());
+      expect(ctrl.blocks[2], isA<DelimiterBlock>());
+    });
+
+    test('getContent round-trip from fromJson', () {
+      const json =
+          '{"blocks":[{"type":"header","data":{"text":"Round Trip","level":3}}]}';
+      final ctrl = EditorController.fromJson(json);
+      final output = ctrl.getContent();
+      final decoded = jsonDecode(output) as Map<String, dynamic>;
+      final blocks = decoded['blocks'] as List<dynamic>;
+      expect(blocks.length, 1);
+      expect((blocks[0] as Map<String, dynamic>)['type'], 'header');
+    });
+
+    test('respects custom typeRegistry parameter', () {
+      // Using default registry — header should be parsed
+      const json =
+          '{"blocks":[{"type":"header","data":{"text":"Hi","level":1}}]}';
+      final ctrl = EditorController.fromJson(json);
+      expect(ctrl.blockCount, 1);
+    });
+  });
 }

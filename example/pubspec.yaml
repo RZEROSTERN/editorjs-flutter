@@ -1,0 +1,13 @@
+name: editorjs_flutter_example
+description: Demonstrates the editorjs_flutter package.
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  editorjs_flutter:
+    path: ../

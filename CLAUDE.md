@@ -109,15 +109,20 @@ final config = EditorConfig(
 
 | Block | Viewer | Editor | Notes |
 |---|---|---|---|
-| `header` | H1–H6 | Yes | |
-| `paragraph` | HTML via flutter_html | Yes | |
-| `list` | Flat ordered/unordered | Yes | Nested lists not yet supported |
-| `delimiter` | Divider | Yes | |
-| `image` | Network URL | Yes | caption/border/stretch not yet rendered |
-| `quote` | Planned | Planned | |
-| `code` | Planned | Planned | |
-| `table` | Planned | Planned | |
-| `checklist` | Planned | Planned | |
+| `header` | H1–H6 | ✅ | |
+| `paragraph` | HTML via flutter_html | ✅ | Inline format bar (B/I/U/S/code/mark) |
+| `list` | Ordered / unordered / nested | ✅ | |
+| `delimiter` | Divider | ✅ | |
+| `image` | Network URL | ✅ | caption/border/stretch parsed; image_picker not wired |
+| `quote` | With alignment | ✅ | |
+| `code` | Monospace + copy button | ✅ | |
+| `checklist` | Checked / unchecked | ✅ | |
+| `table` | With optional heading row | ✅ | |
+| `warning` | Title + message | ✅ | |
+| `embed` | Tappable card | Viewer only | |
+| `linkTool` | Link preview card | Viewer only | |
+| `attaches` | File download card | Viewer only | |
+| `raw` | Sanitized HTML | Viewer only | |
 
 ---
 
@@ -158,6 +163,15 @@ When building new features, always work bottom-up:
 - `demo/lib/main.dart` — viewer usage example
 - `demo/lib/createnote.dart` — editor usage example
 - `demo/test_data/` — sample EditorJS JSON and styles JSON
+
+## Contribution Rules
+
+1. All new code must be covered by unit or widget tests.
+2. **Minimum test coverage: 80 %** — the CI workflow enforces this via `VeryGoodOpenSource/very_good_coverage`. PRs that drop coverage below 80 % will fail CI and cannot be merged.
+3. Run `fvm flutter analyze` locally before pushing — zero issues required.
+4. Run `fvm flutter test --coverage` locally and verify the coverage threshold.
+5. Follow the Clean Architecture layer rules: no Flutter imports in `domain/`, no direct widget dependencies in `data/`.
+6. New block types must be added bottom-up: entity → mapper → renderer → (editor) → register in both registries → export from barrel.
 
 ## Git Workflow
 
@@ -216,7 +230,7 @@ When building new features, always work bottom-up:
 
 ## Versioning
 
-Current version: `0.1.0` (in `pubspec.yaml`).
+Current version: `0.5.0` (in `pubspec.yaml`).
 
 When making changes, always update `CHANGELOG.md` with a new entry at the top following the existing format:
 - Bump the patch version for bug fixes
@@ -225,8 +239,9 @@ When making changes, always update `CHANGELOG.md` with a new entry at the top fo
 
 ## Known Issues / Backlog
 
-- Image `caption`, `withBorder`, `stretched`, `withBackground` fields parsed but not rendered
-- Nested lists not supported
-- No HTML sanitization before passing to `flutter_html` (XSS risk with untrusted JSON)
-- All tests are commented out — need full test coverage
-- `quote`, `code`, `table`, `checklist` blocks not yet implemented
+- `image_picker` is declared as a dependency but `ImageEditor` only accepts a URL string — picker not wired up
+- No `EditorController` content persistence to local storage (save/load)
+- No inline link editor in paragraph (currently inserts a `<a>` paragraph block via dialog)
+- No drag-to-reorder for blocks (only up/down buttons)
+- Typing history not tracked by undo/redo (only structural operations are undoable)
+- pub.dev publication pending — description, topics, and example are ready but package has not been published yet
