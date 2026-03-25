@@ -17,12 +17,15 @@ class QuoteRenderer extends BlockRenderer<QuoteBlock> {
       QuoteAlignment.left => TextAlign.left,
     };
 
+    final baseStyles = HtmlStyleBuilder.build(styleConfig);
+    final baseBodyStyle = baseStyles['body'] ?? Style();
+    final mergedBodyStyle = baseBodyStyle.copyWith(
+      textAlign: align,
+      fontFamily: styleConfig?.defaultFont,
+    );
     final styleMap = {
-      ...HtmlStyleBuilder.build(styleConfig),
-      'body': Style(
-        textAlign: align,
-        fontFamily: styleConfig?.defaultFont,
-      ),
+      ...baseStyles,
+      'body': mergedBodyStyle,
     };
 
     return Container(
