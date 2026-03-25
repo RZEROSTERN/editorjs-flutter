@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
+import '../../../data/utils/html_sanitizer.dart';
 import '../../../domain/entities/blocks/quote_block.dart';
 import '../base_block_renderer.dart';
 
@@ -30,7 +31,7 @@ class QuoteRenderer extends BlockRenderer<QuoteBlock> {
         crossAxisAlignment: _crossAlignment(block.alignment),
         children: [
           Html(
-            data: block.text,
+            data: HtmlSanitizer.sanitize(block.text),
             style: {
               'body': Style(textAlign: align),
             },
