@@ -181,13 +181,15 @@ AI tools (including Claude Code) are permitted to assist with contributions to t
 
 The following rules apply when using Claude Code (`claude` CLI) on this repository:
 
-1. **No autonomous commits.** Claude Code must never commit or push changes without explicit human instruction. Every commit requires a human to review the diff and approve it first.
-2. **No force pushes.** Claude Code must never run `git push --force` or any destructive git operation (`reset --hard`, `branch -D`, etc.) without explicit human confirmation.
-3. **Scope discipline.** Claude Code must only modify files directly related to the described task. It must not refactor, reformat, or add documentation to files it was not asked to touch.
-4. **No secret handling.** Claude Code must never read, write, or commit files that may contain credentials, API keys, or environment secrets (`.env`, `*.pem`, `*.key`, etc.).
-5. **Dependency changes require approval.** Any addition, removal, or version change to dependencies in `pubspec.yaml` must be explicitly requested by the human contributor before being applied.
-6. **Architecture changes require prior agreement.** Changes that affect the package's public API, layer boundaries, or the block registry must be discussed and agreed upon before Claude Code implements them.
-7. **CLAUDE.md is the source of truth.** Claude Code must read and follow `CLAUDE.md` at the start of every session. Any conflict between `CLAUDE.md` and a user instruction must be surfaced to the human before proceeding.
+1. **Branch before coding.** Claude Code must create and checkout a new branch from `master` before writing any code. Branch names must follow the `feat/`, `fix/`, `refactor/`, or `chore/` prefix convention. Direct commits to `master` are never allowed.
+2. **Generate a PR description before finishing.** At the end of every coding session, Claude Code must produce a `PR_DESCRIPTION.md` file at the repo root summarising the changes (title, type of change, summary, breaking changes, migration notes, test plan checklist). This file is ephemeral — delete it after the PR is merged.
+3. **No autonomous commits.** Claude Code must never commit or push changes without explicit human instruction. Every commit requires a human to review the diff and approve it first.
+4. **No force pushes.** Claude Code must never run `git push --force` or any destructive git operation (`reset --hard`, `branch -D`, etc.) without explicit human confirmation.
+5. **Scope discipline.** Claude Code must only modify files directly related to the described task. It must not refactor, reformat, or add documentation to files it was not asked to touch.
+6. **No secret handling.** Claude Code must never read, write, or commit files that may contain credentials, API keys, or environment secrets (`.env`, `*.pem`, `*.key`, etc.).
+7. **Dependency changes require approval.** Any addition, removal, or version change to dependencies in `pubspec.yaml` must be explicitly requested by the human contributor before being applied.
+8. **Architecture changes require prior agreement.** Changes that affect the package's public API, layer boundaries, or the block registry must be discussed and agreed upon before Claude Code implements them.
+9. **CLAUDE.md is the source of truth.** Claude Code must read and follow `CLAUDE.md` at the start of every session. Any conflict between `CLAUDE.md` and a user instruction must be surfaced to the human before proceeding.
 
 ## Committer responsibility disclaimer
 
