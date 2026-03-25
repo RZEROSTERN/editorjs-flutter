@@ -25,16 +25,16 @@ class EditorJSView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final source = JsonDocumentSource(registry: this.config.typeRegistry);
+    final source = JsonDocumentSource(registry: config.typeRegistry);
     final document = ParseDocument(source)(jsonData);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         for (final block in document.blocks) ...[
-          this.config.rendererRegistry.buildRenderer(
+          config.rendererRegistry.buildRenderer(
                 block,
-                this.config.styleConfig,
+                config.styleConfig,
               ) ??
               const SizedBox.shrink(),
           const SizedBox(height: 8),

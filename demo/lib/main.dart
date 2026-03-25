@@ -46,10 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _loadTestData() async {
-    final data = await DefaultAssetBundle.of(context)
-        .loadString('test_data/editorjsdatatest.json');
-    final stylesJson = await DefaultAssetBundle.of(context)
-        .loadString('test_data/editorjsstyles.json');
+    final bundle = DefaultAssetBundle.of(context);
+    final data = await bundle.loadString('test_data/editorjsdatatest.json');
+    final stylesJson = await bundle.loadString('test_data/editorjsstyles.json');
 
     final stylesMap = jsonDecode(stylesJson) as Map<String, dynamic>;
     final rawTags = stylesMap['cssTags'] as List<dynamic>? ?? [];

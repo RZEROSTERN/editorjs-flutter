@@ -258,7 +258,7 @@ void main() {
 
       // Custom registry that alters how header blocks are created
       final customRegistry = BlockTypeRegistry()
-        ..register(_PrefixedHeaderMapper('Custom: '));
+        ..register(const _PrefixedHeaderMapper('Custom: '));
 
       final ctrl = EditorController.fromJson(
         json,

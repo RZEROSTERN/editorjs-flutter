@@ -1,9 +1,13 @@
 # EditorJS viewer for Flutter
 
-A viewer and editor compatible with the EditorJS schema.
+A viewer and editor compatible with the [EditorJS](https://editorjs.io/) JSON schema. Supports 14 built-in block types with a Clean Architecture extension point for custom blocks.
+
+[![pub package](https://img.shields.io/pub/v/editorjs_flutter.svg)](https://pub.dev/packages/editorjs_flutter)
+[![CI](https://github.com/DEV1-Softworks/editorjs-flutter/actions/workflows/ci.yml/badge.svg)](https://github.com/DEV1-Softworks/editorjs-flutter/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/DEV1-Softworks/editorjs-flutter/branch/master/graph/badge.svg)](https://codecov.io/gh/DEV1-Softworks/editorjs-flutter)
 
 # DISCLAIMER
-This library is under active development. While the architecture is stable, some block types are still being added. Use with care in production environments.
+This package is in active development (pre-1.0). The public API is stable and the Clean Architecture foundation is solid, but some editor features are still being refined. Suitable for early production use with the understanding that minor API changes may occur in future minor versions.
 
 Requires **Flutter 3.10+** and **Dart 3.0+**.
 
@@ -13,7 +17,7 @@ Add the following to your `pubspec.yaml` dependencies:
 
 ```yaml
 dependencies:
-  editorjs_flutter: ^0.1.0
+  editorjs_flutter: ^0.5.0
 ```
 
 Then run `flutter pub get`.
@@ -136,10 +140,16 @@ class CreateNoteState extends State<CreateNote> {
 
 ### Pre-loading existing content into the editor
 
+Load a previously saved JSON string directly:
+
 ```dart
-_controller = EditorController(
-  initialBlocks: parsedDocument.blocks, // List<BlockEntity>
-);
+_controller = EditorController.fromJson(savedJsonString);
+```
+
+Or pass a parsed block list if you already have one:
+
+```dart
+_controller = EditorController(initialBlocks: parsedDocument.blocks);
 ```
 
 ### Registering custom block types
