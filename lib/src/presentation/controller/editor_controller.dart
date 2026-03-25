@@ -4,6 +4,7 @@ import '../../data/datasources/json_document_source.dart';
 import '../../data/registry/block_type_registry.dart';
 import '../../domain/entities/block_document.dart';
 import '../../domain/entities/block_entity.dart';
+import '../../domain/usecases/parse_document.dart';
 import '../../domain/usecases/serialize_document.dart';
 
 /// A paired snapshot of block data and their stable IDs, used by undo/redo.
@@ -44,6 +45,23 @@ class EditorController extends ChangeNotifier {
     return EditorController._internal(
       initialBlocks: initialBlocks,
       serializer: serializer,
+    );
+  }
+
+  /// Creates a controller pre-populated with blocks parsed from an EditorJS
+  /// JSON string. Unknown block types are silently dropped (logged via
+  /// `dart:developer`). If [jsonString] is empty or invalid JSON the
+  /// controller starts empty.
+  factory EditorController.fromJson(
+    String jsonString, {
+    BlockTypeRegistry? typeRegistry,
+  }) {
+    final registry = typeRegistry ?? BlockTypeRegistry();
+    final source = JsonDocumentSource(registry: registry);
+    final document = ParseDocument(source)(jsonString);
+    return EditorController._internal(
+      initialBlocks: document.blocks,
+      serializer: SerializeDocument(source),
     );
   }
 

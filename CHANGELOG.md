@@ -1,3 +1,30 @@
+## [0.5.0] - 2026-03-25 — Publication readiness
+
+### New API
+* `EditorController.fromJson(String jsonString, {BlockTypeRegistry? typeRegistry})` — creates a controller pre-populated from an existing EditorJS JSON string; gracefully handles invalid JSON.
+
+### Package metadata
+* `pubspec.yaml` — updated description and added `topics` (editor, rich-text, editorjs, content).
+* `example/` directory added — two-tab demo app showing `EditorJSView` (viewer tab) and `EditorJSEditor` (editor tab).
+
+### CI / CD
+* `.github/workflows/ci.yml` added — runs `flutter analyze` + `flutter test --coverage` on every PR and push to `master`; enforces ≥ 80 % line coverage via `VeryGoodOpenSource/very_good_coverage@v3`; uploads report to Codecov.
+
+### Contribution rules
+* 80 % minimum test coverage enforced in CI — PRs that drop below this threshold cannot be merged.
+* `CLAUDE.md` updated with contribution rules, refreshed block types table, and updated backlog.
+
+### Tests
+* Added `test/unit/block_entities_test.dart` — `toJson()` and `type` getter for all 14 block entities.
+* Added `test/unit/html_style_builder_test.dart` — `HtmlStyleBuilder.build()` with various configs.
+* Extended `test/widget/renderers_test.dart` — paragraph, quote, list (flat/ordered/nested), table, image, linkTool, raw.
+* Added `test/widget/editorjs_view_test.dart` — integration tests for the full parse → render pipeline.
+* Added `test/widget/editorjs_editor_test.dart` — editor + block controls + `fromJson` round-trip.
+* Added `test/widget/toolbar_test.dart` — toolbar button interactions and hyperlink dialog.
+* Added `test/widget/block_editors_test.dart` — individual editor widgets (paragraph, list, checklist, table, image, header, quote, warning, code).
+
+---
+
 ## [0.4.0] - 2026-03-25 — Phase 4: Quality & Safety
 
 ### Null-safety hardening
