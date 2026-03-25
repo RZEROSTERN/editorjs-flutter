@@ -1,78 +1,101 @@
+import 'dart:convert';
+
 import 'package:editorjs_flutter/editorjs_flutter.dart';
 import 'package:flutter/material.dart';
+
 import 'createnote.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'EditorJS Example',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
       ),
-      home: MyHomePage(title: 'EditorJS Flutter Example'),
+      home: const MyHomePage(title: 'EditorJS Flutter Example'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  EditorJSView editorJSView;
+  String? _jsonData;
+  EditorConfig? _config;
 
   @override
   void initState() {
     super.initState();
-    fetchTestData();
+    _loadTestData();
   }
 
-  void fetchTestData() async {
-    String data = await DefaultAssetBundle.of(context)
-        .loadString("test_data/editorjsdatatest.json");
-    String styles = await DefaultAssetBundle.of(context)
-        .loadString("test_data/editorjsstyles.json");
+  Future<void> _loadTestData() async {
+    final data = await DefaultAssetBundle.of(context)
+        .loadString('test_data/editorjsdatatest.json');
+    final stylesJson = await DefaultAssetBundle.of(context)
+        .loadString('test_data/editorjsstyles.json');
+
+    final stylesMap = jsonDecode(stylesJson) as Map<String, dynamic>;
+    final rawTags = stylesMap['cssTags'] as List<dynamic>? ?? [];
+
+    final styleConfig = StyleConfig(
+      defaultFont: stylesMap['defaultFont'] as String?,
+      cssTags: rawTags
+          .whereType<Map<String, dynamic>>()
+          .map((t) => CssTagConfig(
+                tag: t['tag'] as String,
+                backgroundColor: t['backgroundColor'] as String?,
+                color: t['color'] as String?,
+                padding: (t['padding'] as num?)?.toDouble(),
+              ))
+          .toList(),
+    );
 
     setState(() {
-      editorJSView = EditorJSView(editorJSData: data, styles: styles);
+      _jsonData = data;
+      _config = EditorConfig(styleConfig: styleConfig);
     });
   }
 
   void _showEditor() {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => CreateNoteLayout()));
+      builder: (_) => const CreateNoteLayout(),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.all(15),
-        children: [
-          (editorJSView != null) ? editorJSView : Text("Please wait...")
-        ],
-      ),
+      appBar: AppBar(title: Text(widget.title)),
+      body: _jsonData == null
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.all(15),
+              children: [
+                EditorJSView(jsonData: _jsonData!, config: _config),
+              ],
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showEditor,
         tooltip: 'Create content',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
