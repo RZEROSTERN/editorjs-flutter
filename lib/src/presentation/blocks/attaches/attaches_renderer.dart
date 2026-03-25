@@ -16,8 +16,15 @@ class AttachesRenderer extends BlockRenderer<AttachesBlock> {
 
     return InkWell(
       onTap: block.url.isNotEmpty
-          ? () => launchUrl(Uri.parse(block.url),
-              mode: LaunchMode.externalApplication)
+          ? () async {
+              final uri = Uri.tryParse(block.url);
+              if (uri == null) return;
+              final scheme = uri.scheme.toLowerCase();
+              if (scheme != 'http' && scheme != 'https') return;
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri, mode: LaunchMode.externalApplication);
+              }
+            }
           : null,
       borderRadius: BorderRadius.circular(8),
       child: Container(
