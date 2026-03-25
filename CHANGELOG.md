@@ -1,3 +1,29 @@
+## [0.2.0] - 2026-03-25 — Phase 2: Viewer & editor completeness
+
+### New block types (viewer + editor)
+* `quote` — blockquote with optional caption and left/center/right alignment.
+* `code` — monospace code block with horizontal scroll, selectable text, and a copy-to-clipboard button.
+* `checklist` — checkbox list with checked/unchecked state; strikethrough rendered on checked items.
+* `table` — 2-D table with optional heading row, horizontal scroll, and add/remove row & column controls in the editor.
+* `warning` — highlighted alert box with title and message fields.
+
+### Nested list support
+* `ListBlock` items are now `ListItem` objects with a recursive `items` field.
+* `ListMapper` handles both flat string items (`@editorjs/list`) and nested object items (`@editorjs/nested-list`) transparently.
+* `ListRenderer` renders nested items with indentation per depth level.
+
+### HTML sanitization
+* Added `HtmlSanitizer` utility in the data layer that strips `<script>`, `<iframe>`, and `on*` event handler attributes before passing HTML to `flutter_html`.
+* Applied in `ParagraphRenderer` and will apply to any renderer that calls `HtmlSanitizer.sanitize()`.
+
+### Toolbar
+* Added toolbar buttons for all new block types: Quote, Code, Checklist, Table, Warning.
+
+### Exports
+* All five new block entity classes are exported from the public barrel file.
+
+---
+
 ## [0.1.0] - 2026-03-25 — Clean Architecture refactor (breaking)
 
 This release is a full architectural rewrite. The public API has changed.

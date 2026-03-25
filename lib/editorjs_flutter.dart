@@ -28,3 +28,8 @@ export 'src/domain/entities/blocks/paragraph_block.dart';
 export 'src/domain/entities/blocks/list_block.dart';
 export 'src/domain/entities/blocks/delimiter_block.dart';
 export 'src/domain/entities/blocks/image_block.dart';
+export 'src/domain/entities/blocks/quote_block.dart';
+export 'src/domain/entities/blocks/code_block.dart';
+export 'src/domain/entities/blocks/checklist_block.dart';
+export 'src/domain/entities/blocks/table_block.dart';
+export 'src/domain/entities/blocks/warning_block.dart';

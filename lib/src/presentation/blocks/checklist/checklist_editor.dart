@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/entities/blocks/list_block.dart';
+import '../../../domain/entities/blocks/checklist_block.dart';
 import '../base_block_editor.dart';
 
-class ListEditor extends BlockEditor<ListBlock> {
-  const ListEditor({super.key, required super.block, required super.onChanged});
+class ChecklistEditor extends BlockEditor<ChecklistBlock> {
+  const ChecklistEditor({super.key, required super.block, required super.onChanged});
 
   @override
-  State<ListEditor> createState() => _ListEditorState();
+  State<ChecklistEditor> createState() => _ChecklistEditorState();
 }
 
-class _ListEditorState extends State<ListEditor> {
+class _ChecklistEditorState extends State<ChecklistEditor> {
+  late List<ChecklistItem> _items;
   late List<TextEditingController> _controllers;
-  late List<ListItem> _items;
 
   @override
   void initState() {
     super.initState();
     _items = List.from(widget.block.items);
     _controllers =
-        _items.map((i) => TextEditingController(text: i.content)).toList();
+        _items.map((i) => TextEditingController(text: i.text)).toList();
   }
 
   @override
@@ -30,16 +30,19 @@ class _ListEditorState extends State<ListEditor> {
     super.dispose();
   }
 
-  void _notify() {
-    widget.onChanged(ListBlock(
-      style: widget.block.style,
-      items: _items,
-    ));
+  void _notify() =>
+      widget.onChanged(ChecklistBlock(items: List.unmodifiable(_items)));
+
+  void _toggle(int index) {
+    setState(() {
+      _items[index] = _items[index].copyWith(checked: !_items[index].checked);
+    });
+    _notify();
   }
 
   void _addItem() {
     setState(() {
-      _items.add(const ListItem(content: ''));
+      _items.add(const ChecklistItem(text: ''));
       _controllers.add(TextEditingController());
     });
     _notify();
@@ -59,31 +62,29 @@ class _ListEditorState extends State<ListEditor> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (var i = 0; i < _controllers.length; i++)
+        for (var i = 0; i < _items.length; i++)
           Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Text(
-                  widget.block.style == ListStyle.ordered
-                      ? '${i + 1}.'
-                      : '\u2022',
-                  style: const TextStyle(fontSize: 14),
-                ),
+              Checkbox(
+                value: _items[i].checked,
+                onChanged: (_) => _toggle(i),
               ),
               Expanded(
                 child: TextField(
                   controller: _controllers[i],
                   onChanged: (v) {
-                    _items[i] = _items[i].copyWith(content: v);
+                    _items[i] = _items[i].copyWith(text: v);
                     _notify();
                   },
-                  decoration: const InputDecoration(border: InputBorder.none),
+                  decoration: const InputDecoration(
+                    hintText: 'List item...',
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
               IconButton(
                 icon: const Icon(Icons.remove_circle_outline, size: 18),
-                onPressed: _controllers.length > 1 ? () => _removeItem(i) : null,
+                onPressed: _items.length > 1 ? () => _removeItem(i) : null,
               ),
             ],
           ),
