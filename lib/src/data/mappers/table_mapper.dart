@@ -13,7 +13,7 @@ class TableMapper implements BlockMapper<TableBlock> {
     return TableBlock(
       withHeadings: (data['withHeadings'] as bool?) ?? false,
       content: rawContent.map((row) {
-        final rowList = (row as List<dynamic>? ) ?? [];
+        final List<dynamic> rowList = row is List ? row : <dynamic>[];
         return rowList.map((cell) => cell.toString()).toList();
       }).toList(),
     );
