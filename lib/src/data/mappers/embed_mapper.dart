@@ -12,8 +12,16 @@ class EmbedMapper implements BlockMapper<EmbedBlock> {
         service: (data['service'] as String?) ?? '',
         source: (data['source'] as String?) ?? '',
         embed: (data['embed'] as String?) ?? '',
-        width: data['width'] as int?,
-        height: data['height'] as int?,
+        width: switch (data['width']) {
+          int v => v,
+          num v => v.toInt(),
+          _ => null,
+        },
+        height: switch (data['height']) {
+          int v => v,
+          num v => v.toInt(),
+          _ => null,
+        },
         caption: data['caption'] as String?,
       );
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as dev;
 
 import '../../domain/entities/block_document.dart';
 import '../../domain/entities/block_entity.dart';
@@ -13,7 +14,17 @@ class JsonDocumentSource implements DocumentRepository {
 
   @override
   BlockDocument parse(String jsonString) {
-    final Map<String, dynamic> root = jsonDecode(jsonString) as Map<String, dynamic>;
+    late final Map<String, dynamic> root;
+    try {
+      root = jsonDecode(jsonString) as Map<String, dynamic>;
+    } catch (_) {
+      return BlockDocument(
+        time: DateTime.now().millisecondsSinceEpoch,
+        version: '',
+        blocks: const [],
+      );
+    }
+
     final rawBlocks = (root['blocks'] as List<dynamic>?) ?? [];
 
     final blocks = rawBlocks
@@ -21,7 +32,14 @@ class JsonDocumentSource implements DocumentRepository {
         .map((b) {
           final type = (b['type'] as String?) ?? '';
           final data = (b['data'] as Map<String, dynamic>?) ?? {};
-          return registry.parse(type, data);
+          final entity = registry.parse(type, data);
+          if (entity == null && type.isNotEmpty) {
+            dev.log(
+              'Unknown block type ignored: "$type"',
+              name: 'EditorJSFlutter',
+            );
+          }
+          return entity;
         })
         .whereType<BlockEntity>()
         .toList();

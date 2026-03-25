@@ -10,7 +10,7 @@ class LinkToolMapper implements BlockMapper<LinkToolBlock> {
   @override
   LinkToolBlock fromJson(Map<String, dynamic> data) {
     final rawMeta = data['meta'] as Map<String, dynamic>?;
-    final rawImage = rawMeta?['image'] as Map<String, dynamic>?;
+    final rawImage = rawMeta?['image'] is Map ? rawMeta!['image'] as Map<String, dynamic> : null;
 
     final meta = rawMeta == null
         ? null

@@ -14,7 +14,7 @@ class ChecklistMapper implements BlockMapper<ChecklistBlock> {
       items: rawItems.whereType<Map<String, dynamic>>().map((i) {
         return ChecklistItem(
           text: (i['text'] as String?) ?? '',
-          checked: (i['checked'] as bool?) ?? false,
+          checked: i['checked'] is bool ? i['checked'] as bool : false,
         );
       }).toList(),
     );
