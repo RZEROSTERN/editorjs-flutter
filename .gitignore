@@ -78,7 +78,6 @@ build/
 **/claude/**/claude-*.log
 **/.claude/
 CLAUDE.local.md
-CLAUDE.md
 
 # FVM Version Cache
 .fvm/
