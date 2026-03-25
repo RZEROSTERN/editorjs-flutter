@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 
 import '../../../data/utils/html_sanitizer.dart';
 import '../../../domain/entities/blocks/quote_block.dart';
+import '../../utils/html_style_builder.dart';
 import '../base_block_renderer.dart';
 
 class QuoteRenderer extends BlockRenderer<QuoteBlock> {
@@ -14,6 +15,14 @@ class QuoteRenderer extends BlockRenderer<QuoteBlock> {
       QuoteAlignment.center => TextAlign.center,
       QuoteAlignment.right => TextAlign.right,
       QuoteAlignment.left => TextAlign.left,
+    };
+
+    final styleMap = {
+      ...HtmlStyleBuilder.build(styleConfig),
+      'body': Style(
+        textAlign: align,
+        fontFamily: styleConfig?.defaultFont,
+      ),
     };
 
     return Container(
@@ -32,9 +41,7 @@ class QuoteRenderer extends BlockRenderer<QuoteBlock> {
         children: [
           Html(
             data: HtmlSanitizer.sanitize(block.text),
-            style: {
-              'body': Style(textAlign: align),
-            },
+            style: styleMap,
           ),
           if (block.caption != null && block.caption!.isNotEmpty)
             Padding(

@@ -10,9 +10,17 @@ import '../../domain/entities/blocks/list_block.dart';
 import '../../domain/entities/blocks/paragraph_block.dart';
 import '../../domain/entities/blocks/quote_block.dart';
 import '../../domain/entities/blocks/table_block.dart';
+import '../../domain/entities/blocks/attaches_block.dart';
+import '../../domain/entities/blocks/embed_block.dart';
+import '../../domain/entities/blocks/link_tool_block.dart';
+import '../../domain/entities/blocks/raw_block.dart';
 import '../../domain/entities/blocks/warning_block.dart';
 import '../../domain/entities/style_config.dart';
+import '../blocks/attaches/attaches_renderer.dart';
 import '../blocks/checklist/checklist_editor.dart';
+import '../blocks/embed/embed_renderer.dart';
+import '../blocks/link_tool/link_tool_renderer.dart';
+import '../blocks/raw/raw_renderer.dart';
 import '../blocks/checklist/checklist_renderer.dart';
 import '../blocks/code/code_editor.dart';
 import '../blocks/code/code_renderer.dart';
@@ -76,6 +84,14 @@ class BlockRendererRegistry {
         (b, s) => TableRenderer(block: b as TableBlock, styleConfig: s));
     registerRenderer('warning',
         (b, s) => WarningRenderer(block: b as WarningBlock, styleConfig: s));
+    registerRenderer('embed',
+        (b, s) => EmbedRenderer(block: b as EmbedBlock, styleConfig: s));
+    registerRenderer('linkTool',
+        (b, s) => LinkToolRenderer(block: b as LinkToolBlock, styleConfig: s));
+    registerRenderer('attaches',
+        (b, s) => AttachesRenderer(block: b as AttachesBlock, styleConfig: s));
+    registerRenderer('raw',
+        (b, s) => RawRenderer(block: b as RawBlock, styleConfig: s));
 
     registerEditor('header',
         (b, cb) => HeaderEditor(block: b as HeaderBlock, onChanged: (u) => cb(u)));

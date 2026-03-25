@@ -53,6 +53,7 @@ class ImageRenderer extends BlockRenderer<ImageBlock> {
                 fontSize: 12,
                 color: Colors.grey.shade600,
                 fontStyle: FontStyle.italic,
+                fontFamily: styleConfig?.defaultFont,
               ),
             ),
           ),

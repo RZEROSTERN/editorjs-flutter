@@ -33,3 +33,7 @@ export 'src/domain/entities/blocks/code_block.dart';
 export 'src/domain/entities/blocks/checklist_block.dart';
 export 'src/domain/entities/blocks/table_block.dart';
 export 'src/domain/entities/blocks/warning_block.dart';
+export 'src/domain/entities/blocks/embed_block.dart';
+export 'src/domain/entities/blocks/link_tool_block.dart';
+export 'src/domain/entities/blocks/attaches_block.dart';
+export 'src/domain/entities/blocks/raw_block.dart';

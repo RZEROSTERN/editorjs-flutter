@@ -1,3 +1,21 @@
+## [0.2.1] - 2026-03-25 — Viewer completeness: embed, linkTool, attaches, raw
+
+### New block types (viewer only)
+* `embed` — tappable card showing service name, source URL, and optional caption; opens URL via `url_launcher`.
+* `linkTool` — link preview card with thumbnail, title, description, and URL; opens link via `url_launcher`.
+* `attaches` — file download card with type-specific icon, file size, and `url_launcher` download action.
+* `raw` — raw HTML content rendered through `flutter_html` with full `HtmlSanitizer` protection.
+
+### Cross-cutting renderer improvements
+* Extracted `HtmlStyleBuilder` shared utility — applies `defaultFont` to `flutter_html` `body` style and all CSS tag overrides, eliminating duplicate helpers across renderers.
+* Applied `HtmlSanitizer.sanitize()` to `QuoteRenderer` and `ListRenderer` (HTML content fields).
+* `ImageRenderer` caption now respects `styleConfig.defaultFont`.
+
+### Exports
+* All four new block entity classes (`EmbedBlock`, `LinkToolBlock`, `AttachesBlock`, `RawBlock`) exported from the public barrel file.
+
+---
+
 ## [0.2.0] - 2026-03-25 — Phase 2: Viewer & editor completeness
 
 ### New block types (viewer + editor)
