@@ -14,8 +14,21 @@ class LinkToolRenderer extends BlockRenderer<LinkToolBlock> {
 
     return InkWell(
       onTap: block.link.isNotEmpty
-          ? () => launchUrl(Uri.parse(block.link),
-              mode: LaunchMode.externalApplication)
+          ? () async {
+              final uri = Uri.tryParse(block.link);
+              if (uri == null) {
+                return;
+              }
+              if (uri.scheme != 'http' && uri.scheme != 'https') {
+                return;
+              }
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(
+                  uri,
+                  mode: LaunchMode.externalApplication,
+                );
+              }
+            }
           : null,
       borderRadius: BorderRadius.circular(8),
       child: Container(
