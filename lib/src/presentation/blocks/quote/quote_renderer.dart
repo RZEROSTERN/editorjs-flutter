@@ -37,7 +37,7 @@ class QuoteRenderer extends BlockRenderer<QuoteBlock> {
             width: 4,
           ),
         ),
-        color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
+        color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
       ),
       child: Column(
         crossAxisAlignment: _crossAlignment(block.alignment),

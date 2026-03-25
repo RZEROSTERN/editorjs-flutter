@@ -130,6 +130,16 @@ class EditorJSToolbar extends StatelessWidget {
               ),
               // --- Actions ---
               _ToolbarButton(
+                icon: Icons.undo,
+                tooltip: 'Undo',
+                onTap: controller.canUndo ? controller.undo : null,
+              ),
+              _ToolbarButton(
+                icon: Icons.redo,
+                tooltip: 'Redo',
+                onTap: controller.canRedo ? controller.redo : null,
+              ),
+              _ToolbarButton(
                 icon: Icons.delete_outline,
                 tooltip: 'Remove last block',
                 onTap: controller.blockCount > 0

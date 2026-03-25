@@ -60,6 +60,8 @@ class _EditorJSEditorState extends State<EditorJSEditor> {
   Widget build(BuildContext context) {
     final blocks = widget.controller.blocks;
 
+    final ids = widget.controller.blockIds;
+
     return Column(
       children: [
         Expanded(
@@ -68,14 +70,25 @@ class _EditorJSEditorState extends State<EditorJSEditor> {
             itemCount: blocks.length,
             itemBuilder: (context, index) {
               final block = blocks[index];
+              final editor = widget.config.rendererRegistry.buildEditor(
+                    block,
+                    (updated) => widget.controller.updateBlock(index, updated),
+                  ) ??
+                  _UnknownBlockWidget(type: block.type);
+
               return Padding(
+                key: ValueKey(ids[index]),
                 padding: const EdgeInsets.only(bottom: 8),
-                child: widget.config.rendererRegistry.buildEditor(
-                      block,
-                      (updated) =>
-                          widget.controller.updateBlock(index, updated),
-                    ) ??
-                    _UnknownBlockWidget(type: block.type),
+                child: _BlockWrap(
+                  onMoveUp: index > 0
+                      ? () => widget.controller.moveBlock(index, index - 1)
+                      : null,
+                  onMoveDown: index < blocks.length - 1
+                      ? () => widget.controller.moveBlock(index, index + 1)
+                      : null,
+                  onDelete: () => widget.controller.removeBlock(index),
+                  child: editor,
+                ),
               );
             },
           ),
@@ -85,6 +98,87 @@ class _EditorJSEditorState extends State<EditorJSEditor> {
           rendererRegistry: widget.config.rendererRegistry,
         ),
       ],
+    );
+  }
+}
+
+class _BlockWrap extends StatelessWidget {
+  final Widget child;
+  final VoidCallback? onMoveUp;
+  final VoidCallback? onMoveDown;
+  final VoidCallback onDelete;
+
+  const _BlockWrap({
+    required this.child,
+    required this.onMoveUp,
+    required this.onMoveDown,
+    required this.onDelete,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: child),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _BlockControlButton(
+              icon: Icons.arrow_upward,
+              tooltip: 'Move up',
+              onTap: onMoveUp,
+            ),
+            _BlockControlButton(
+              icon: Icons.arrow_downward,
+              tooltip: 'Move down',
+              onTap: onMoveDown,
+            ),
+            _BlockControlButton(
+              icon: Icons.close,
+              tooltip: 'Delete block',
+              onTap: onDelete,
+              color: Colors.red.shade300,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _BlockControlButton extends StatelessWidget {
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback? onTap;
+  final Color? color;
+
+  const _BlockControlButton({
+    required this.icon,
+    required this.tooltip,
+    required this.onTap,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final iconColor = onTap == null
+        ? Colors.grey.shade300
+        : (color ?? Colors.grey.shade500);
+
+    return Tooltip(
+      message: tooltip,
+      child: SizedBox(
+        width: 40,
+        height: 40,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(4),
+          child: Center(
+            child: Icon(icon, size: 14, color: iconColor),
+          ),
+        ),
+      ),
     );
   }
 }
