@@ -68,9 +68,9 @@ class EditorJSToolbar extends StatelessWidget {
                 icon: Icons.format_list_bulleted,
                 tooltip: 'Unordered list',
                 onTap: () => controller.addBlock(
-                  ListBlock(
+                  const ListBlock(
                     style: ListStyle.unordered,
-                    items: [const ListItem(content: '')],
+                    items: [ListItem(content: '')],
                   ),
                 ),
               ),
@@ -78,9 +78,9 @@ class EditorJSToolbar extends StatelessWidget {
                 icon: Icons.format_list_numbered,
                 tooltip: 'Ordered list',
                 onTap: () => controller.addBlock(
-                  ListBlock(
+                  const ListBlock(
                     style: ListStyle.ordered,
-                    items: [const ListItem(content: '')],
+                    items: [ListItem(content: '')],
                   ),
                 ),
               ),
@@ -98,7 +98,7 @@ class EditorJSToolbar extends StatelessWidget {
                 icon: Icons.table_chart_outlined,
                 tooltip: 'Table',
                 onTap: () => controller.addBlock(
-                  TableBlock(
+                  const TableBlock(
                     content: [
                       ['', ''],
                       ['', ''],

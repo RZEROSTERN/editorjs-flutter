@@ -253,11 +253,39 @@ void main() {
     });
 
     test('respects custom typeRegistry parameter', () {
-      // Using default registry — header should be parsed
       const json =
           '{"blocks":[{"type":"header","data":{"text":"Hi","level":1}}]}';
-      final ctrl = EditorController.fromJson(json);
+
+      // Custom registry that alters how header blocks are created
+      final customRegistry = BlockTypeRegistry()
+        ..register(const _PrefixedHeaderMapper('Custom: '));
+
+      final ctrl = EditorController.fromJson(
+        json,
+        typeRegistry: customRegistry,
+      );
+
       expect(ctrl.blockCount, 1);
+      expect(ctrl.blocks.first, isA<HeaderBlock>());
+      final headerBlock = ctrl.blocks.first as HeaderBlock;
+      expect(headerBlock.text, 'Custom: Hi');
+      expect(headerBlock.level, 1);
     });
   });
+}
+
+/// A [BlockMapper] that prefixes header text — used to verify custom
+/// registries are respected by [EditorController.fromJson].
+class _PrefixedHeaderMapper implements BlockMapper<HeaderBlock> {
+  final String prefix;
+  const _PrefixedHeaderMapper(this.prefix);
+
+  @override
+  String get supportedType => 'header';
+
+  @override
+  HeaderBlock fromJson(Map<String, dynamic> data) => HeaderBlock(
+        text: '$prefix${data['text'] ?? ''}',
+        level: data['level'] is int ? data['level'] as int : 1,
+      );
 }

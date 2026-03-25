@@ -354,7 +354,7 @@ DA:16,1
 DA:19,2
 DA:20,1
 DA:21,5
-DA:29,5
+DA:29,8
 DA:34,3
 DA:37,1
 DA:38,1
@@ -418,7 +418,7 @@ LF:10
 LH:9
 end_of_record
 SF:lib/src/domain/entities/blocks/table_block.dart
-DA:10,5
+DA:10,8
 DA:15,3
 DA:18,1
 DA:19,1
@@ -1621,20 +1621,12 @@ DA:61,2
 DA:64,3
 DA:67,2
 DA:70,3
-DA:71,1
-DA:73,1
 DA:77,2
 DA:80,3
-DA:81,1
-DA:83,1
 DA:87,2
 DA:90,3
 DA:97,2
 DA:100,3
-DA:101,1
-DA:102,1
-DA:103,1
-DA:104,1
 DA:109,2
 DA:112,3
 DA:114,2
@@ -1683,6 +1675,6 @@ DA:230,2
 DA:231,2
 DA:232,2
 DA:233,2
-LF:87
-LH:87
+LF:79
+LH:79
 end_of_record
