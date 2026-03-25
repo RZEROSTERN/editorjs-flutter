@@ -1,3 +1,27 @@
+## [0.3.0] - 2026-03-25 — Phase 3: Editor features
+
+### Undo / redo
+* `EditorController` maintains a capped (50-entry) history stack.
+* `canUndo` / `canRedo` boolean getters, `undo()` / `redo()` methods.
+* History recorded on structural operations — `addBlock`, `insertBlock`, `removeBlock`, `moveBlock`, `clear`. Live text edits via `updateBlock` do not pollute the history.
+* Toolbar exposes Undo and Redo buttons that disable automatically when no history is available.
+
+### Per-block controls
+* Every block in `EditorJSEditor` is now wrapped with three icon buttons: Move up (↑), Move down (↓), Delete (×).
+* Move-up is disabled on the first block; move-down is disabled on the last block.
+* Delete emits `removeBlock`, which is immediately undoable.
+
+### Inline formatting for paragraph blocks
+* `ParagraphEditor` shows an inline format bar when the field is focused.
+* Six format actions: Bold (`<b>`), Italic (`<i>`), Underline (`<u>`), Strikethrough (`<s>`), Inline code (`<code>`), Highlight (`<mark>`).
+* Applies tags around the current text selection; inserts empty tags with cursor between them when nothing is selected.
+* Raw HTML stored in `ParagraphBlock.html` and rendered by `flutter_html` in the viewer.
+
+### Bug fix
+* Replaced deprecated `Color.withOpacity()` with `Color.withValues(alpha:)` in `QuoteRenderer`.
+
+---
+
 ## [0.2.1] - 2026-03-25 — Viewer completeness: embed, linkTool, attaches, raw
 
 ### New block types (viewer only)
