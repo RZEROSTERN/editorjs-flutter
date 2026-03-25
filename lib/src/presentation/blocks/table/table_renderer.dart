@@ -13,6 +13,7 @@ class TableRenderer extends BlockRenderer<TableBlock> {
     final columnCount = block.content.map((r) => r.length).reduce(
           (a, b) => a > b ? a : b,
         );
+    if (columnCount == 0) return const SizedBox.shrink();
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
