@@ -30,10 +30,40 @@ class _ListEditorState extends State<ListEditor> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(covariant ListEditor oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.block != widget.block) {
+      final newItems = widget.block.items;
+      setState(() {
+        final updated = <TextEditingController>[];
+        for (var i = 0; i < newItems.length; i++) {
+          if (i < _controllers.length) {
+            // Only update text when the content actually differs to avoid
+            // resetting the cursor during normal typing round-trips.
+            if (_controllers[i].text != newItems[i].content) {
+              _controllers[i].text = newItems[i].content;
+            }
+            updated.add(_controllers[i]);
+          } else {
+            updated.add(TextEditingController(text: newItems[i].content));
+          }
+        }
+        // Dispose extra controllers only after building the updated list so
+        // that an unexpected error cannot leave _controllers in a partial state.
+        for (var i = newItems.length; i < _controllers.length; i++) {
+          _controllers[i].dispose();
+        }
+        _controllers = updated;
+        _items = List.from(newItems);
+      });
+    }
+  }
+
   void _notify() {
     widget.onChanged(ListBlock(
       style: widget.block.style,
-      items: _items,
+      items: List.unmodifiable(_items),
     ));
   }
 

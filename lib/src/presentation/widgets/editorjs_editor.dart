@@ -60,6 +60,8 @@ class _EditorJSEditorState extends State<EditorJSEditor> {
   Widget build(BuildContext context) {
     final blocks = widget.controller.blocks;
 
+    final ids = widget.controller.blockIds;
+
     return Column(
       children: [
         Expanded(
@@ -75,6 +77,7 @@ class _EditorJSEditorState extends State<EditorJSEditor> {
                   _UnknownBlockWidget(type: block.type);
 
               return Padding(
+                key: ValueKey(ids[index]),
                 padding: const EdgeInsets.only(bottom: 8),
                 child: _BlockWrap(
                   onMoveUp: index > 0
@@ -165,12 +168,15 @@ class _BlockControlButton extends StatelessWidget {
 
     return Tooltip(
       message: tooltip,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(4),
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: Icon(icon, size: 14, color: iconColor),
+      child: SizedBox(
+        width: 40,
+        height: 40,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(4),
+          child: Center(
+            child: Icon(icon, size: 14, color: iconColor),
+          ),
         ),
       ),
     );

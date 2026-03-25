@@ -36,6 +36,18 @@ class _ParagraphEditorState extends State<ParagraphEditor> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(covariant ParagraphEditor oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.block.html != widget.block.html && !_focusNode.hasFocus) {
+      final newText = widget.block.html;
+      _textController.value = TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
+      );
+    }
+  }
+
   void _onTextChanged(String value) {
     widget.onChanged(ParagraphBlock(html: value));
   }
@@ -174,7 +186,8 @@ class _FormatButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(4),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          constraints: const BoxConstraints(minHeight: 40, minWidth: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           margin: const EdgeInsets.only(right: 2),
           decoration: highlight
               ? BoxDecoration(
@@ -182,19 +195,21 @@ class _FormatButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 )
               : null,
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-              fontStyle: italic ? FontStyle.italic : FontStyle.normal,
-              decoration: underline
-                  ? TextDecoration.underline
-                  : strikethrough
-                      ? TextDecoration.lineThrough
-                      : null,
-              fontFamily: monospace ? 'monospace' : null,
-              color: Colors.black87,
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+                fontStyle: italic ? FontStyle.italic : FontStyle.normal,
+                decoration: underline
+                    ? TextDecoration.underline
+                    : strikethrough
+                        ? TextDecoration.lineThrough
+                        : null,
+                fontFamily: monospace ? 'monospace' : null,
+                color: Colors.black87,
+              ),
             ),
           ),
         ),
