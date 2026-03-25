@@ -19,7 +19,6 @@ class TableRenderer extends BlockRenderer<TableBlock> {
       scrollDirection: Axis.horizontal,
       child: Table(
         border: TableBorder.all(color: Colors.grey.shade300),
-        defaultColumnWidth: const IntrinsicColumnWidth(),
         children: block.content.asMap().entries.map((entry) {
           final rowIndex = entry.key;
           final row = entry.value;
