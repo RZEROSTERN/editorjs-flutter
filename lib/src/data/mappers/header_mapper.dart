@@ -9,7 +9,9 @@ class HeaderMapper implements BlockMapper<HeaderBlock> {
 
   @override
   HeaderBlock fromJson(Map<String, dynamic> data) => HeaderBlock(
-        text: (data['text'] as String?) ?? '',
+        text: data['text'] is String
+            ? data['text'] as String
+            : (data['text']?.toString() ?? ''),
         level: data['level'] is int ? data['level'] as int : 1,
       );
 }

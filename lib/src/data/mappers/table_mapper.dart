@@ -9,7 +9,8 @@ class TableMapper implements BlockMapper<TableBlock> {
 
   @override
   TableBlock fromJson(Map<String, dynamic> data) {
-    final rawContent = (data['content'] as List<dynamic>?) ?? [];
+    final rawContent =
+        data['content'] is List ? data['content'] as List<dynamic> : <dynamic>[];
     return TableBlock(
       withHeadings: data['withHeadings'] is bool ? data['withHeadings'] as bool : false,
       content: rawContent.map((row) {
