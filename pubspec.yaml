@@ -1,7 +1,8 @@
 name: editorjs_flutter
 description: "Flutter viewer and editor widgets for the EditorJS JSON schema. Supports 14 built-in block types with a Clean Architecture extension point for custom blocks."
 version: 0.5.0
-homepage: https://github.com/RZEROSTERN/editorjs-flutter
+homepage: https://labs.dev1.mx/editorjs-flutter
+repository: https://github.com/DEV1-Softworks/editorjs-flutter
 topics:
   - editor
   - rich-text
@@ -9,7 +10,7 @@ topics:
   - content
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=3.10.0"
 
 dependencies:
