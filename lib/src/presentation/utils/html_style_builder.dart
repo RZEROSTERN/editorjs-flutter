@@ -37,7 +37,27 @@ class HtmlStyleBuilder {
   }
 
   static Color _parseColor(String hex) {
+    // Remove leading '#' characters, if any.
     final code = hex.replaceAll('#', '');
-    return Color(int.parse(code, radix: 16));
+
+    // Normalize to 8-digit ARGB. Accept 6-digit RGB or 8-digit ARGB; otherwise fallback.
+    String normalized;
+    if (code.length == 6) {
+      // Treat 6-digit RGB as fully opaque.
+      normalized = 'FF$code';
+    } else if (code.length == 8) {
+      normalized = code;
+    } else {
+      // Invalid length, use a safe fallback color.
+      return const Color(0xFF000000);
+    }
+
+    final value = int.tryParse(normalized, radix: 16);
+    if (value == null) {
+      // Invalid hex characters, use a safe fallback color.
+      return const Color(0xFF000000);
+    }
+
+    return Color(value);
   }
 }
