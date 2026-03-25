@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../domain/entities/blocks/checklist_block.dart';
+import '../../domain/entities/blocks/code_block.dart';
 import '../../domain/entities/blocks/delimiter_block.dart';
 import '../../domain/entities/blocks/header_block.dart';
 import '../../domain/entities/blocks/image_block.dart';
 import '../../domain/entities/blocks/list_block.dart';
 import '../../domain/entities/blocks/paragraph_block.dart';
+import '../../domain/entities/blocks/quote_block.dart';
+import '../../domain/entities/blocks/table_block.dart';
+import '../../domain/entities/blocks/warning_block.dart';
 import '../controller/editor_controller.dart';
 import '../registry/block_renderer_registry.dart';
 
@@ -34,6 +39,7 @@ class EditorJSToolbar extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
+              // --- Text blocks ---
               _ToolbarButton(
                 label: 'T',
                 tooltip: 'Paragraph',
@@ -47,17 +53,57 @@ class EditorJSToolbar extends StatelessWidget {
                       controller.addBlock(HeaderBlock(text: '', level: level)),
                 ),
               _ToolbarButton(
+                icon: Icons.format_quote,
+                tooltip: 'Quote',
+                onTap: () =>
+                    controller.addBlock(const QuoteBlock(text: '')),
+              ),
+              _ToolbarButton(
+                icon: Icons.code,
+                tooltip: 'Code',
+                onTap: () => controller.addBlock(const CodeBlock(code: '')),
+              ),
+              // --- Lists ---
+              _ToolbarButton(
                 icon: Icons.format_list_bulleted,
                 tooltip: 'Unordered list',
                 onTap: () => controller.addBlock(
-                  const ListBlock(style: ListStyle.unordered, items: ['']),
+                  ListBlock(
+                    style: ListStyle.unordered,
+                    items: [const ListItem(content: '')],
+                  ),
                 ),
               ),
               _ToolbarButton(
                 icon: Icons.format_list_numbered,
                 tooltip: 'Ordered list',
                 onTap: () => controller.addBlock(
-                  const ListBlock(style: ListStyle.ordered, items: ['']),
+                  ListBlock(
+                    style: ListStyle.ordered,
+                    items: [const ListItem(content: '')],
+                  ),
+                ),
+              ),
+              _ToolbarButton(
+                icon: Icons.checklist,
+                tooltip: 'Checklist',
+                onTap: () => controller.addBlock(
+                  const ChecklistBlock(
+                    items: [ChecklistItem(text: '')],
+                  ),
+                ),
+              ),
+              // --- Structural ---
+              _ToolbarButton(
+                icon: Icons.table_chart_outlined,
+                tooltip: 'Table',
+                onTap: () => controller.addBlock(
+                  TableBlock(
+                    content: [
+                      ['', ''],
+                      ['', ''],
+                    ],
+                  ),
                 ),
               ),
               _ToolbarButton(
@@ -65,6 +111,13 @@ class EditorJSToolbar extends StatelessWidget {
                 tooltip: 'Delimiter',
                 onTap: () => controller.addBlock(const DelimiterBlock()),
               ),
+              _ToolbarButton(
+                icon: Icons.warning_amber_outlined,
+                tooltip: 'Warning',
+                onTap: () =>
+                    controller.addBlock(const WarningBlock(title: '', message: '')),
+              ),
+              // --- Media ---
               _ToolbarButton(
                 icon: Icons.image_outlined,
                 tooltip: 'Image',
@@ -75,6 +128,7 @@ class EditorJSToolbar extends StatelessWidget {
                 tooltip: 'Hyperlink',
                 onTap: () => _showHyperlinkDialog(context),
               ),
+              // --- Actions ---
               _ToolbarButton(
                 icon: Icons.delete_outline,
                 tooltip: 'Remove last block',
@@ -122,7 +176,6 @@ class EditorJSToolbar extends StatelessWidget {
               final url = urlController.text.trim();
               final title = titleController.text.trim();
               if (url.isNotEmpty) {
-                // Insert as a paragraph with an anchor tag.
                 controller.addBlock(ParagraphBlock(
                   html: '<a href="$url">${title.isNotEmpty ? title : url}</a>',
                 ));

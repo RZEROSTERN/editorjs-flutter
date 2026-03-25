@@ -1,10 +1,15 @@
 import '../../domain/entities/block_entity.dart';
 import '../mappers/block_mapper.dart';
+import '../mappers/checklist_mapper.dart';
+import '../mappers/code_mapper.dart';
 import '../mappers/delimiter_mapper.dart';
 import '../mappers/header_mapper.dart';
 import '../mappers/image_mapper.dart';
 import '../mappers/list_mapper.dart';
 import '../mappers/paragraph_mapper.dart';
+import '../mappers/quote_mapper.dart';
+import '../mappers/table_mapper.dart';
+import '../mappers/warning_mapper.dart';
 
 /// Maps EditorJS block type strings to their [BlockMapper] implementations.
 ///
@@ -19,6 +24,11 @@ class BlockTypeRegistry {
     register(const ListMapper());
     register(const DelimiterMapper());
     register(const ImageMapper());
+    register(const QuoteMapper());
+    register(const CodeMapper());
+    register(const ChecklistMapper());
+    register(const TableMapper());
+    register(const WarningMapper());
   }
 
   /// Registers a [BlockMapper]. Overwrites any existing mapper for the same type.

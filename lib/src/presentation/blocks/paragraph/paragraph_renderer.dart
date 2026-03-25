@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
+import '../../../data/utils/html_sanitizer.dart';
 import '../../../domain/entities/blocks/paragraph_block.dart';
 import '../../../domain/entities/style_config.dart';
 import '../base_block_renderer.dart';
@@ -11,7 +12,7 @@ class ParagraphRenderer extends BlockRenderer<ParagraphBlock> {
   @override
   Widget build(BuildContext context) {
     return Html(
-      data: block.html,
+      data: HtmlSanitizer.sanitize(block.html),
       style: _buildStyleMap(styleConfig),
     );
   }

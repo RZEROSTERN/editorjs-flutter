@@ -12,48 +12,63 @@ class ListRenderer extends BlockRenderer<ListBlock> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (var i = 0; i < block.items.length; i++)
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 4, right: 6),
-                child: Text(
-                  _bullet(i),
-                  style: const TextStyle(fontSize: 14),
-                ),
-              ),
-              Expanded(
-                child: Html(
-                  data: block.items[i],
-                  style: _buildStyleMap(styleConfig),
-                ),
-              ),
-            ],
-          ),
-      ],
+      children: _buildItems(block.items, block.style, 0, styleConfig),
     );
   }
 
-  String _bullet(int index) =>
-      block.style == ListStyle.ordered ? '${index + 1}.' : '\u2022';
+  static List<Widget> _buildItems(
+    List<ListItem> items,
+    ListStyle style,
+    int depth,
+    StyleConfig? styleConfig,
+  ) {
+    final indentLeft = depth * 16.0;
+    int counter = 1;
 
-  Map<String, Style> _buildStyleMap(StyleConfig? config) {
+    return [
+      for (final item in items) ...[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(width: indentLeft),
+            Padding(
+              padding: const EdgeInsets.only(top: 2, right: 6),
+              child: Text(
+                style == ListStyle.ordered ? '${counter++}.' : '\u2022',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: styleConfig?.defaultFont,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Html(
+                data: item.content,
+                style: _buildStyleMap(styleConfig),
+              ),
+            ),
+          ],
+        ),
+        if (item.items.isNotEmpty)
+          ..._buildItems(item.items, style, depth + 1, styleConfig),
+      ],
+    ];
+  }
+
+  static Map<String, Style> _buildStyleMap(StyleConfig? config) {
     if (config == null || config.cssTags.isEmpty) return {};
     return {
       for (final tag in config.cssTags)
         tag.tag: Style(
-          backgroundColor: tag.backgroundColor != null
-              ? _parseColor(tag.backgroundColor!)
-              : null,
+          backgroundColor:
+              tag.backgroundColor != null ? _parseColor(tag.backgroundColor!) : null,
           color: tag.color != null ? _parseColor(tag.color!) : null,
           padding: tag.padding != null ? HtmlPaddings.all(tag.padding!) : null,
         ),
     };
   }
 
-  Color _parseColor(String hex) {
+  static Color _parseColor(String hex) {
     final code = hex.replaceAll('#', '');
     return Color(int.parse(code, radix: 16));
   }

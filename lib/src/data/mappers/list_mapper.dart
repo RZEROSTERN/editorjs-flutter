@@ -14,7 +14,23 @@ class ListMapper implements BlockMapper<ListBlock> {
 
     return ListBlock(
       style: styleStr == 'ordered' ? ListStyle.ordered : ListStyle.unordered,
-      items: rawItems.map((e) => e.toString()).toList(),
+      items: rawItems.map(_parseItem).toList(),
     );
+  }
+
+  /// Handles both flat string items (standard @editorjs/list) and
+  /// nested object items (@editorjs/nested-list).
+  ListItem _parseItem(dynamic raw) {
+    if (raw is String) {
+      return ListItem(content: raw);
+    }
+    if (raw is Map<String, dynamic>) {
+      final nestedRaw = (raw['items'] as List<dynamic>?) ?? [];
+      return ListItem(
+        content: (raw['content'] as String?) ?? '',
+        items: nestedRaw.map(_parseItem).toList(),
+      );
+    }
+    return ListItem(content: raw.toString());
   }
 }
