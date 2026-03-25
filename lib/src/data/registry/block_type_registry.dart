@@ -1,13 +1,17 @@
 import '../../domain/entities/block_entity.dart';
+import '../mappers/attaches_mapper.dart';
 import '../mappers/block_mapper.dart';
 import '../mappers/checklist_mapper.dart';
 import '../mappers/code_mapper.dart';
 import '../mappers/delimiter_mapper.dart';
+import '../mappers/embed_mapper.dart';
 import '../mappers/header_mapper.dart';
 import '../mappers/image_mapper.dart';
+import '../mappers/link_tool_mapper.dart';
 import '../mappers/list_mapper.dart';
 import '../mappers/paragraph_mapper.dart';
 import '../mappers/quote_mapper.dart';
+import '../mappers/raw_mapper.dart';
 import '../mappers/table_mapper.dart';
 import '../mappers/warning_mapper.dart';
 
@@ -29,6 +33,10 @@ class BlockTypeRegistry {
     register(const ChecklistMapper());
     register(const TableMapper());
     register(const WarningMapper());
+    register(const EmbedMapper());
+    register(const LinkToolMapper());
+    register(const AttachesMapper());
+    register(const RawMapper());
   }
 
   /// Registers a [BlockMapper]. Overwrites any existing mapper for the same type.

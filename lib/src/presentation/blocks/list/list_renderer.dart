@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
+import '../../../data/utils/html_sanitizer.dart';
 import '../../../domain/entities/blocks/list_block.dart';
 import '../../../domain/entities/style_config.dart';
+import '../../utils/html_style_builder.dart';
 import '../base_block_renderer.dart';
 
 class ListRenderer extends BlockRenderer<ListBlock> {
@@ -43,8 +45,8 @@ class ListRenderer extends BlockRenderer<ListBlock> {
             ),
             Expanded(
               child: Html(
-                data: item.content,
-                style: _buildStyleMap(styleConfig),
+                data: HtmlSanitizer.sanitize(item.content),
+                style: HtmlStyleBuilder.build(styleConfig),
               ),
             ),
           ],
@@ -53,23 +55,5 @@ class ListRenderer extends BlockRenderer<ListBlock> {
           ..._buildItems(item.items, style, depth + 1, styleConfig),
       ],
     ];
-  }
-
-  static Map<String, Style> _buildStyleMap(StyleConfig? config) {
-    if (config == null || config.cssTags.isEmpty) return {};
-    return {
-      for (final tag in config.cssTags)
-        tag.tag: Style(
-          backgroundColor:
-              tag.backgroundColor != null ? _parseColor(tag.backgroundColor!) : null,
-          color: tag.color != null ? _parseColor(tag.color!) : null,
-          padding: tag.padding != null ? HtmlPaddings.all(tag.padding!) : null,
-        ),
-    };
-  }
-
-  static Color _parseColor(String hex) {
-    final code = hex.replaceAll('#', '');
-    return Color(int.parse(code, radix: 16));
   }
 }
