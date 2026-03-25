@@ -18,9 +18,12 @@ class _TableEditorState extends State<TableEditor> {
   void initState() {
     super.initState();
     _withHeadings = widget.block.withHeadings;
-    _controllers = widget.block.content
-        .map((row) => row.map((cell) => TextEditingController(text: cell)).toList())
-        .toList();
+    _controllers = widget.block.content.map((row) {
+      // Ensure each row has at least 1 column
+      return row.isEmpty
+          ? [TextEditingController()]
+          : row.map((cell) => TextEditingController(text: cell)).toList();
+    }).toList();
     // Ensure at least 1 row × 1 column
     if (_controllers.isEmpty) _controllers = [[TextEditingController()]];
   }
@@ -35,8 +38,9 @@ class _TableEditorState extends State<TableEditor> {
     super.dispose();
   }
 
-  int get _colCount =>
-      _controllers.map((r) => r.length).reduce((a, b) => a > b ? a : b);
+  int get _colCount => _controllers.isEmpty
+      ? 1
+      : _controllers.map((r) => r.length).reduce((a, b) => a > b ? a : b);
 
   void _notify() {
     widget.onChanged(TableBlock(
