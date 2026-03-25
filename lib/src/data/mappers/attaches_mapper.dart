@@ -9,13 +9,19 @@ class AttachesMapper implements BlockMapper<AttachesBlock> {
 
   @override
   AttachesBlock fromJson(Map<String, dynamic> data) {
-    final file = data['file'] as Map<String, dynamic>?;
+    final file = data['file'] is Map ? data['file'] as Map<String, dynamic> : null;
     return AttachesBlock(
-      url: (file?['url'] as String?) ?? '',
-      name: file?['name'] as String?,
-      extension: file?['extension'] as String?,
-      size: file?['size'] as int?,
-      title: data['title'] as String?,
+      url: file != null && file['url'] is String ? file['url'] as String : '',
+      name: file != null && file['name'] is String ? file['name'] as String : null,
+      extension: file != null && file['extension'] is String
+          ? file['extension'] as String
+          : null,
+      size: switch (file?['size']) {
+        int v => v,
+        num v => v.toInt(),
+        _ => null,
+      },
+      title: data['title'] is String ? data['title'] as String : null,
     );
   }
 }

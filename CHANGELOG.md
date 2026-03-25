@@ -1,3 +1,27 @@
+## [0.4.0] - 2026-03-25 — Phase 4: Quality & Safety
+
+### Null-safety hardening
+* `JsonDocumentSource.parse()` now wraps `jsonDecode` in try/catch — invalid JSON returns an empty `BlockDocument` instead of throwing.
+* `HeaderMapper` — `level` field uses `is int` guard instead of a bare `as int?` cast.
+* `ImageMapper` — `file` object and all three `bool` fields (`withBorder`, `stretched`, `withBackground`) use safe type checks.
+* `AttachesMapper` — `file` object uses `is Map` guard; `size` handles both `int` and `num` (double) via switch expression.
+* `EmbedMapper` — `width` and `height` handle both `int` and `num` via switch expression.
+* `LinkToolMapper` — `image` sub-map uses `is Map` guard.
+* `TableMapper` — `withHeadings` uses `is bool` guard.
+* `ChecklistMapper` — `checked` uses `is bool` guard.
+
+### Unknown block type logging
+* `JsonDocumentSource` emits a `dart:developer` `log` entry (`name: 'EditorJSFlutter'`) when an unknown block type is silently dropped during parsing.
+
+### Tests (91 total)
+* **`test/unit/html_sanitizer_test.dart`** (9 tests) — script tags, iframes, event handlers, edge cases.
+* **`test/unit/mappers_test.dart`** (46 tests) — all 14 mappers; happy path, missing fields, wrong-type fields.
+* **`test/unit/editor_controller_test.dart`** (17 tests) — all mutations, full undo/redo state machine.
+* **`test/unit/json_document_source_test.dart`** — parse, unknown-type drop, invalid JSON, round-trip.
+* **`test/widget/renderers_test.dart`** (9 tests) — header, delimiter, code, warning, checklist, embed, attaches.
+
+---
+
 ## [0.3.0] - 2026-03-25 — Phase 3: Editor features
 
 ### Undo / redo

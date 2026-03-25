@@ -9,13 +9,13 @@ class ImageMapper implements BlockMapper<ImageBlock> {
 
   @override
   ImageBlock fromJson(Map<String, dynamic> data) {
-    final file = data['file'] as Map<String, dynamic>?;
+    final file = data['file'] is Map ? data['file'] as Map<String, dynamic> : null;
     return ImageBlock(
-      url: (file?['url'] as String?) ?? '',
-      caption: data['caption'] as String?,
-      withBorder: (data['withBorder'] as bool?) ?? false,
-      stretched: (data['stretched'] as bool?) ?? false,
-      withBackground: (data['withBackground'] as bool?) ?? false,
+      url: file != null && file['url'] is String ? file['url'] as String : '',
+      caption: data['caption'] is String ? data['caption'] as String : null,
+      withBorder: data['withBorder'] is bool ? data['withBorder'] as bool : false,
+      stretched: data['stretched'] is bool ? data['stretched'] as bool : false,
+      withBackground: data['withBackground'] is bool ? data['withBackground'] as bool : false,
     );
   }
 }
