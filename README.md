@@ -17,7 +17,7 @@ Add the following to your `pubspec.yaml` dependencies:
 
 ```yaml
 dependencies:
-  editorjs_flutter: ^0.5.0
+  editorjs_flutter: ^0.5.0-beta.1
 ```
 
 Then run `flutter pub get`.
